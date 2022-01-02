@@ -1,0 +1,43 @@
+Question-6
+
+
+
+Combination Sum - II-------------------------------------------- Leetcode
+
+class Solution {
+public:
+    
+    void combination(vector<vector<int>>&res,vector<int>&ans,vector<int>&c, int t, int ind){
+        if(t == 0){
+            res.push_back(ans);
+            return;
+        }
+        
+        for(int i=ind;i<c.size();++i){
+            if(i>ind && c[i] == c[i-1]){
+                continue;
+            }
+            
+            if(c[i] > t){
+                break;
+            }
+            
+            ans.push_back(c[i]);
+            combination(res,ans,c,t-c[i],i+1);
+            ans.pop_back();
+            
+        }
+    }
+    
+    vector<vector<int>>combinationSum2(vector<int>& candidates, int target) {
+         
+        sort(candidates.begin(),candidates.end());
+        vector<vector<int>>res;
+        vector<int>ans;
+        
+        combination(res,ans,candidates,target,0);
+        
+        return res;
+    }
+    
+};
