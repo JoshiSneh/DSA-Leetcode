@@ -1,7 +1,7 @@
 Question-7
 
 
-Redistribute Characters to Make All Strings Equal----------------
+Redistribute Characters to Make All Strings Equal---------------- Leetcode
 
 
 class Solution {
