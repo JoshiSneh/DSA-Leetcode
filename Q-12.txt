@@ -1,0 +1,34 @@
+Question-12
+
+
+
+77. Combinations-------------------------------Leetcode
+
+class Solution {
+public:
+    
+    void combination(vector<vector<int>>&res, vector<int>&ans, int k, int n, int ind){
+        
+        if(ans.size() == k){
+            res.push_back(ans);
+            return;
+        }
+        
+        for(int i=ind;i<=n;++i){
+            ans.push_back(i);
+            combination(res,ans,k,n,i+1);
+            ans.pop_back();
+        }
+        
+        return;
+    }
+    
+    vector<vector<int>> combine(int n, int k) {
+        vector<vector<int>>res;
+        vector<int>ans;
+        
+        combination(res,ans,k,n,1);
+        
+        return res;
+    }
+};
