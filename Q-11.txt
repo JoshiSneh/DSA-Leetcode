@@ -1,0 +1,168 @@
+<<<<<<< HEAD
+Question-11
+
+
+
+90. Subsets II-------------------------------------Leetcode
+
+Method-----1 Using set
+
+class Solution {
+public:
+    
+    void subset(set<vector<int>>&s,vector<int>&ans,vector<int>&nums,int i){
+        
+        if(i == nums.size()){
+            s.insert(ans);
+            return;
+        }
+        
+        ans.push_back(nums[i]);
+        subset(s,ans,nums,i+1); // ----> Pick
+        
+        ans.pop_back();
+        subset(s,ans,nums,i+1); // ----> Not Pick
+    }
+    
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        
+        sort(nums.begin(),nums.end());
+        
+        set<vector<int>>res;
+        vector<int>ans;
+        
+        subset(res,ans,nums,0);
+        
+        vector<vector<int>>v;
+        
+        for(auto it = res.begin(); it != res.end(); ++it){
+            v.push_back(*it);
+        }
+        
+        return v;
+        
+    }
+    
+};
+
+
+Method-----2 Without Using Set
+
+class Solution {
+public:
+   
+      void subset(vector<vector<int>>&res, vector<int>&ans, vector<int>&nums, int ind){
+         
+        res.push_back(ans);
+           
+        for(int i=ind;i<nums.size();++i){
+            if(i>ind && nums[i] == nums[i-1]){
+                continue;
+            }
+            
+            ans.push_back(nums[i]);
+            subset(res,ans,nums,i+1);
+            ans.pop_back();
+        }
+        
+        return;
+    }
+    
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        
+        sort(nums.begin(),nums.end());
+        
+        vector<vector<int>>res;
+        vector<int>ans;
+        
+        subset(res,ans,nums,0);
+    
+        return res;
+        
+    }
+
+=======
+Question-11
+
+
+
+90. Subsets II-------------------------------------Leetcode
+
+Method-----1 Using set
+
+class Solution {
+public:
+    
+    void subset(set<vector<int>>&s,vector<int>&ans,vector<int>&nums,int i){
+        
+        if(i == nums.size()){
+            s.insert(ans);
+            return;
+        }
+        
+        ans.push_back(nums[i]);
+        subset(s,ans,nums,i+1); // ----> Pick
+        
+        ans.pop_back();
+        subset(s,ans,nums,i+1); // ----> Not Pick
+    }
+    
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        
+        sort(nums.begin(),nums.end());
+        
+        set<vector<int>>res;
+        vector<int>ans;
+        
+        subset(res,ans,nums,0);
+        
+        vector<vector<int>>v;
+        
+        for(auto it = res.begin(); it != res.end(); ++it){
+            v.push_back(*it);
+        }
+        
+        return v;
+        
+    }
+    
+};
+
+
+Method-----2 Without Using Set
+
+class Solution {
+public:
+   
+      void subset(vector<vector<int>>&res, vector<int>&ans, vector<int>&nums, int ind){
+         
+        res.push_back(ans);
+           
+        for(int i=ind;i<nums.size();++i){
+            if(i>ind && nums[i] == nums[i-1]){
+                continue;
+            }
+            
+            ans.push_back(nums[i]);
+            subset(res,ans,nums,i+1);
+            ans.pop_back();
+        }
+        
+        return;
+    }
+    
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        
+        sort(nums.begin(),nums.end());
+        
+        vector<vector<int>>res;
+        vector<int>ans;
+        
+        subset(res,ans,nums,0);
+    
+        return res;
+        
+    }
+
+>>>>>>> dd83327cefe88581d03ec2907f17b8e0f38572bc
+};
