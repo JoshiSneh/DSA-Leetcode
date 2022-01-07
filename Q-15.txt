@@ -1,0 +1,40 @@
+Question-15
+
+
+2042. Check if Numbers Are Ascending in a Sentence ----------- Leetcode
+
+class Solution {
+public:
+    bool areNumbersAscending(string s) {
+        int pre = 0;
+        int cur = 0;
+        
+        vector<int>ans;
+        
+        for(int i=0;i<s.length();++i){
+           if(isdigit(s[i])){
+               cur = cur*10 + (s[i]-'0');
+           }else if(cur != 0){
+               ans.push_back(cur);
+               pre=cur;
+               cur=0;
+           }    
+        }
+        
+        if(cur != 0){
+            ans.push_back(cur);
+        }
+        
+        int num = ans[0];
+        
+        for(int i=1;i<ans.size();++i){
+            if(ans[i] <= num){
+                return false;
+            }
+            num = ans[i];
+        }
+        
+        return true;
+        
+    }
+};
