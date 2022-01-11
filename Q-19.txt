@@ -1,0 +1,63 @@
+Question-19
+
+
+543. Diameter of Binary Tree ------------ Leetcode
+
+
+Method - 1 TC- O(N2)--------
+
+class Solution {
+public:
+    int maxNum = 0;
+      
+    int height(TreeNode *root){
+        if(root == NULL){
+            return 0;
+        }
+        
+        int l = height(root->left);
+        int r = height(root->right);
+        
+        return max(l,r)+1;
+    }
+    
+    int diameterOfBinaryTree(TreeNode* root) {
+       if(root == NULL){
+           return maxNum;
+       }
+       
+        int l = height(root->left);
+        int r = height(root->right);
+        
+        maxNum = max(maxNum,l+r);
+        
+        diameterOfBinaryTree(root->left);
+        diameterOfBinaryTree(root->right);
+        
+        return maxNum;
+    }
+};
+
+Method - 2 TC O(N)-------
+
+   int diameter(TreeNode* root, int &maxNum){
+        if(root == NULL){
+           return 0;
+        }
+        
+        int l = diameter(root->left,maxNum);
+        int r = diameter(root->right,maxNum);
+        
+        maxNum = max(maxNum,l+r);
+        
+        return 1+max(l,r);
+        
+   }
+    
+   int diameterOfBinaryTree(TreeNode* root) {
+        int maxNum = 0;
+        diameter(root,maxNum);
+        
+        return maxNum;
+    }
+

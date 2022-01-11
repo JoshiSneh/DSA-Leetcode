@@ -1,0 +1,51 @@
+Question-21
+
+
+124. Binary Tree Maximum Path Sum ------------------- Leetcode
+
+
+class Solution {
+public:
+    
+    int sum(TreeNode* root, int &maxSum){
+        if(root == NULL){
+            return 0;
+        }
+        
+        int lSum = sum(root->left,maxSum);
+        int rSum = sum(root->right,maxSum);
+        
+        
+        /*
+         Since the negative value will not help in getting maxSum
+         so, if lSum < 0 then lSum = 0;
+            or rSum < 0 then rSum = 0;
+    
+        */
+        
+        if(lSum < 0){
+            lSum = 0;  
+        }
+        
+        if(rSum < 0){
+            rSum = 0;
+        }
+        
+        maxSum = max(maxSum,lSum+rSum+root->val);
+        
+        return max(lSum,rSum) + root->val; 
+        
+        /* 
+         Why max(lSum,rSum)?
+         At every junction point we have to take the max value from path, that will be either from left                    or from right.
+        */
+    }
+    
+    int maxPathSum(TreeNode* root) {
+        int maxSum = INT_MIN;
+        
+        sum(root,maxSum);
+        return maxSum;
+    }
+    
+};

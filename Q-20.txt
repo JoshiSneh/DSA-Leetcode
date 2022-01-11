@@ -1,0 +1,42 @@
+Question-20
+
+
+
+257. Binary Tree Paths ------------------------ Leetcode
+
+
+
+class Solution {
+public:
+    
+    void path(TreeNode* root ,string s, vector<string>&res){
+           if(root == NULL){
+              return;
+           }
+        
+           if(root->left == 0 && root->right == 0){
+               string c = to_string(root->val);
+               s = s + c;
+               res.push_back(s);
+               return;
+           }
+           
+           string c = to_string(root->val);
+           s = s + c + "->";
+        
+           path(root->left,s,res);
+           
+           path(root->right,s,res);
+           
+           s.pop_back();
+    }
+    
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string>res;
+        string s = "";
+        
+        path(root,s,res);
+        
+        return res;
+    }
+};
