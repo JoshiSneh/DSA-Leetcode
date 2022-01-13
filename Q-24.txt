@@ -1,0 +1,61 @@
+Question-24
+
+
+199. Binary Tree Right Side View -------------- Leetcode  and Left Side View
+
+Right Side View --------
+
+class Solution {
+public:
+    
+    /* Logic is to go for Reverse Pre Order i.e Root Right Left */
+    
+    void rightView(TreeNode* root, int level, vector<int>&res){
+        if(root == NULL){
+            return;
+        }
+        
+        if(level == res.size()){
+            res.push_back(root->val);
+        }
+        
+        rightView(root->right,level+1,res);
+        rightView(root->left,level+1,res);
+        
+    }
+    vector<int> rightSideView(TreeNode* root) {
+         vector<int>res;
+         /*root,level*/
+         rightView(root,0,res);
+        return res;
+    }
+};
+
+
+Left Side View --------
+
+class Solution {
+public:
+    
+    /* Logic is to go for Reverse Pre Order i.e Root Right Left */
+    
+    void rightView(TreeNode* root, int level, vector<int>&res){
+        if(root == NULL){
+            return;
+        }
+        
+        if(level == res.size()){
+            res.push_back(root->val);
+        }
+        
+        rightView(root-left,level+1,res);
+        rightView(root->right,level+1,res);
+        
+    }
+    vector<int> rightSideView(TreeNode* root) {
+         vector<int>res;
+         /*root,level*/
+         rightView(root,0,res);
+        return res;
+    }
+};

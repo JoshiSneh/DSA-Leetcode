@@ -1,0 +1,48 @@
+Question-22
+
+
+Top View Of Binary Tree ------ GFG
+
+
+class Solution
+{
+    public:
+    //Function to return a list of nodes visible from the top view 
+    //from left to right in Binary Tree.
+    vector<int> topView(Node *root)
+    {
+        vector<int>res;
+        
+        queue<pair<Node*,int>>q;
+        map<int,int>m;
+        
+        q.push({root,0});
+        
+        while(!q.empty()){
+            auto temp = q.front();
+            q.pop();
+            Node* node = temp.first;
+            int ver = temp.second;
+            
+            if(m.find(ver) == m.end()){
+              m[ver] = node->data;     
+            }
+            
+            if(node->left != NULL){
+                q.push({node->left, ver-1});
+            }
+            
+            if(node->right != NULL){
+                q.push({node->right,ver+1});
+            }
+            
+        }
+        
+        for(auto it = m.begin(); it != m.end(); ++it){
+            res.push_back(it->second);
+        }
+        
+        return res;
+    }
+
+};

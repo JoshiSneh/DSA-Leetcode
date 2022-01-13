@@ -1,0 +1,63 @@
+Question-25
+
+
+113. Path Sum II ------------------ Leetcode
+
+Method-1 --------------
+
+class Solution {
+public:
+    
+    void sumNum(TreeNode* root, int num, vector<int>&res){
+        if(root == NULL){
+            return;
+        }
+        
+        num = num*10 + root->val;
+        
+        if(root->left == NULL && root->right == NULL){
+            res.push_back(num);
+            num = num/10;
+            return;
+        }
+        
+        sumNum(root->left,res,num);
+        sumNum(root->right,res,num);
+        
+    }
+    
+    int sumNumbers(TreeNode* root) {
+        vector<int>res;
+        int num = 0;
+        return sumNum(root,num,res);
+        
+        return accumulate(res.begin(),res.end(),0);
+    }
+};
+
+Method-2 ----------------
+
+class Solution {
+public:
+    
+    int sumNum(TreeNode* root, int num){
+        if(root == NULL){
+            return 0;
+        }
+        
+        num = num*10 + root->val;
+        
+        if(root->left == NULL && root->right == NULL){
+            return num;
+        }
+        
+        sumNum(root->left,num);
+        sumNum(root->right,num);
+        
+    }
+    
+    int sumNumbers(TreeNode* root) {
+        int num = 0;
+        return sumNum(root,num);
+    }
+};
