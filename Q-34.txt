@@ -1,0 +1,35 @@
+Question-34
+
+
+105. Construct Binary Tree from Preorder and Inorder Traversal ------------ Leetcode
+
+
+class Solution {
+    
+    TreeNode* createRoot(vector<int>&pre, int pS, int pE, vector<int>&in, int iS, int iE,unordered_map<int,int>&m){
+            if(pS > pE || iS > iE){
+                return NULL;
+            }
+        
+            TreeNode* root = new TreeNode(pre[pS]); /* Setting the value to the root */
+            
+            int inRoot = m[root->val]; /* index of root */
+            int numLeft = inRoot - iS; /* Number of elements left in the left side of root in inorder*/
+        
+            root->left = createRoot(pre,pS+1,pS+numLeft,in,iS,inRoot-1,m);
+            root->right = createRoot(pre,pS+numLeft+1,pE,in,inRoot+1,iE,m);
+            
+            return root;
+    };
+    
+public:
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        unordered_map<int,int>m;
+        
+        for(int i=0;i<inorder.size();++i){
+            m[inorder[i]] = i;
+        }
+        
+        return createRoot(preorder,0,preorder.size()-1,inorder,0,inorder.size()-1,m);
+    }
+};

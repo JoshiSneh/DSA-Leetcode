@@ -1,0 +1,40 @@
+Question-33
+
+
+2139. Minimum Moves to Reach Target Score -------------- Leetcode
+
+
+class Solution {
+public:
+    int minMoves(int target, int maxDoubles) {
+        int step = 0;
+        int usedDoubles = 0;
+        
+        /* Greedy Approach
+        
+            If target is a odd num then we can say that we cannot come to the target by x2;
+            For every odd number we have to -1 from that number;
+            
+            
+            if target is a even num then we can say that we can come to the target by x2;
+            For every even number we have to /2 fromt that number
+        */
+        
+        while(target != 1){
+          if(target%2 != 0){
+              target = target - 1;
+          }else{
+              if(usedDoubles == maxDoubles){
+                  target = target - 1;
+              }else{
+                  target = target/2;
+                  usedDoubles++;
+              }
+          }
+            
+          step++;
+            
+        }
+        return step;
+    }
+};

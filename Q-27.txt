@@ -1,0 +1,84 @@
+Question - 27
+
+
+863.All Nodes Distance K in Binary Tree ------------------------ Leetcode
+
+
+class Solution {
+    
+    void makeNode(TreeNode* root, unordered_map<TreeNode*,TreeNode*>&m){
+        queue<TreeNode*>q;
+        q.push(root);
+        
+        while(!q.empty()){
+           TreeNode* temp = q.front();
+            q.pop();
+            
+            if(temp->left != NULL){
+                m[temp->left] = temp;
+                q.push(temp->left);
+            }
+            
+            if(temp->right != NULL){
+                m[temp->right] = temp;
+                q.push(temp->right);
+            }
+        } 
+    }
+     
+    
+public:
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        
+        unordered_map<TreeNode*,TreeNode*>parent; /* Storing parent of every node */
+        makeNode(root,parent);
+        
+        unordered_map<TreeNode*,bool>visited;
+        queue<TreeNode*>q;
+        
+        q.push(target);
+        visited[target] = true;
+        
+        int curLvl = 0;
+        
+        while(!q.empty()){
+            int n = q.size();
+            
+            if(curLvl == k){
+              break;    
+            }
+            curLvl++;
+            
+            for(int i=0;i<n;++i){
+                TreeNode* temp = q.front();
+                q.pop();
+                
+                if(temp->left != NULL && visited[temp->left] != true){
+                    q.push(temp->left);
+                    visited[temp->left] = true;
+                }
+                
+                if(temp->right != NULL && visited[temp->right] != true){
+                    q.push(temp->right);
+                    visited[temp->right] = true;
+                }
+                
+                if(visited[parent[temp]] != true && parent[temp] != NULL){
+                    q.push(parent[temp]);
+                    visited[parent[temp]] = true;
+                }
+            }
+            
+        }
+        
+        vector<int>res;
+        
+        while(!q.empty()){
+            TreeNode* temp = q.front();
+            q.pop();
+            res.push_back(temp->val);
+        }
+        
+        return res;
+    }
+};

@@ -1,0 +1,28 @@
+Question-31
+
+
+53. Maximum Subarray ---------------- Leetcode
+
+
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int maxCount = INT_MIN;
+        int curCount = 0;
+        
+        for(int i=0;i<nums.size();++i){
+            curCount = curCount + nums[i];
+            
+            if(curCount > maxCount){
+                maxCount = curCount;
+            }
+            
+            if(curCount < 0){
+                curCount = 0;
+            }
+            
+        }
+        
+        return maxCount;
+    }
+};

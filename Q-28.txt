@@ -1,0 +1,45 @@
+Question-28
+
+
+222. Count Complete Tree Nodes ------------------- Leetcode
+
+
+class Solution {
+    
+    int leftHeight(TreeNode* root){
+       int lH = 0;
+       TreeNode* temp = root;
+        while(temp!=NULL){
+            lH++;
+            temp = temp->left;
+        }
+        return lH;
+    };
+    
+    int rightHeight(TreeNode* root){
+        int rH = 0;
+        TreeNode* temp = root;
+        while(temp!=NULL){
+            rH++;
+            temp = temp->right;
+        }
+        return rH;
+    };
+    
+public:
+    int countNodes(TreeNode* root) {
+        
+        if(root == NULL){
+            return 0;
+        }
+        
+        int lH = leftHeight(root);
+        int rH = rightHeight(root);
+        
+        if(lH == rH){
+            return (1<<lH)-1;
+        }
+        
+        return 1 + countNodes(root->left) + countNodes(root->right);
+    }
+};

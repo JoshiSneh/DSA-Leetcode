@@ -1,0 +1,38 @@
+Question-29
+
+
+988. Smallest String Starting From Leaf ---------------------- Leetcode
+
+
+class Solution {
+    
+    void sFL(TreeNode *root,string temp,string &ans){
+        if(root == NULL){
+            return;
+        }
+        
+        char c = 97+root->val;
+        temp = temp + c;
+        
+        if(root->left == NULL && root->right == NULL){
+            reverse(temp.begin(),temp.end());
+            ans = min(ans,temp);
+            temp.pop_back();
+            return;
+        }
+        
+        sFL(root->left,temp,ans);
+        sFL(root->right,temp,ans);
+        
+        temp.pop_back();
+    };
+    
+public:
+    string smallestFromLeaf(TreeNode* root){
+        string temp = "";
+        string ans = "zzzzzzzzzz";
+        sFL(root,temp,ans);
+       
+        return ans;
+    }
+};

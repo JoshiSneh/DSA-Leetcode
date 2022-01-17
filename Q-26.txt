@@ -1,0 +1,29 @@
+Question-26
+
+
+Lowest Common Ancestor ------------------- Leetcode
+
+
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(root == NULL){
+            return NULL;
+        }
+        
+        if(root == p || root == q){
+            return root;
+        }
+        
+        TreeNode* l = lowestCommonAncestor(root->left,p,q);
+        TreeNode* r = lowestCommonAncestor(root->right,p,q);
+        
+        if(l == NULL){
+            return r;
+        }else if(r == NULL){ /* This is when r is null*/
+            return l;
+        }else{ /* This is the case for when l and r are not null, then we have to return the root i.e OUR lca*/
+            return root;
+        }
+    }
+};
