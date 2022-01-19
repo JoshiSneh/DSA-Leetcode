@@ -1,0 +1,28 @@
+Question-38
+
+Majority Elemenet 2 ------------- Leetcode
+
+
+class Solution {
+public:
+    vector<int> majorityElement(vector<int>& nums) {
+         int n = nums.size();
+         int times = n/3;
+          
+          unordered_map<int,int>m;
+        
+          for(auto i:nums){
+              m[i]++;
+          }
+        
+          vector<int>res;
+          
+         for(auto i:m){
+            if(i.second > times){
+                res.push_back(i.first);
+            }
+         }
+        
+        return res;
+    }
+};

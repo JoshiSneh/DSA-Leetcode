@@ -1,0 +1,34 @@
+Question-35
+
+
+671. Second Minimum Node In a Binary Tree -------------- Leetcode
+
+
+
+class Solution {
+public:
+    
+    void findSecond(set<int>&res, TreeNode* root){
+        if(root == NULL){
+            return;
+        }
+        
+        res.insert(root->val);
+        findSecond(res,root->left);
+        findSecond(res,root->right);
+    }
+    
+    int findSecondMinimumValue(TreeNode* root) {
+        set<int>res;
+        findSecond(res,root);
+        
+        int count = 0;
+        if(res.size() == 1){
+            return -1;
+        }else{
+            auto it = res.begin();
+            it++;
+            return *it;
+        }
+    }
+};
