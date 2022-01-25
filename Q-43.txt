@@ -1,0 +1,62 @@
+Question-43
+
+
+98. Validate Binary Search Tree -------------- Leetcode
+
+
+class Solution {
+    void inorder(vector<int>&res,TreeNode* root){
+        if(root == NULL){
+            return;
+        }
+        inorder(res,root->left);
+        res.push_back(root->val);
+        inorder(res,root->right);
+    }
+    
+    bool checkBST(TreeNode* root, long minVal, long maxVal){
+        if(root == NULL){
+            return true;
+        }
+        
+        if(root->val >= maxVal || root->val <= minVal){
+            cout<<"2";
+            return false;
+        }
+        cout<<"1";
+        bool l = checkBST(root->left,minVal,root->val);
+        
+        if(l != true){
+            return false;
+        }
+        
+        bool r = checkBST(root->right,root->val,maxVal);
+        
+        if(r != true){
+            return false;
+        }
+        
+        return true;
+    };
+    
+public:
+    bool isValidBST(TreeNode* root) {
+        
+        /* Method-1 */
+        
+//         vector<int>res;
+//         inorder(res,root);
+        
+//         for(int i=0;i<res.size()-1;++i){
+//            if(res[i] >= res[i+1]){
+//                return false;
+//            }    
+//         }
+        
+//         return true;
+        
+        /* Method-2 */
+        
+        return checkBST(root,LONG_MIN,LONG_MAX);
+    }
+};

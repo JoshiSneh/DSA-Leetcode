@@ -1,0 +1,44 @@
+Question-41
+
+
+443. String Compression ----------------------- Leetcode
+
+
+
+class Solution {
+public:
+    int compress(vector<char>& chars) {
+        
+        string s = "";
+        int count = 1;
+        char temp = chars[0];
+        
+        for(int i=1;i<chars.size();++i){
+            if(temp == chars[i]){
+                count++;
+            }else{
+                if(count == 1){
+                    s = s+temp;
+                }else{
+                    s = s+temp+to_string(count);
+                }
+                count = 1;
+                temp = chars[i];
+            }
+        }
+        
+         if(count == 1){
+            s = s+temp;
+         }else{
+            s = s+temp+to_string(count);
+         }
+        
+        cout<<s;
+        
+        for(int i=0;i<s.length();++i){
+            chars[i] = s[i];
+        }
+        
+        return s.length();
+    }
+};

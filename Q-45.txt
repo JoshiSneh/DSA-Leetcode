@@ -1,0 +1,66 @@
+Question-45
+
+
+1008. Construct Binary Search Tree from Preorder Traversal --------- Leetcode
+
+Method - 1--------------
+
+class Solution {
+    void storeInIndex(unordered_map<int,int>&m,vector<int>&in){
+        int n = in.size();
+        for(int i=0;i<n;++i){
+            m[in[i]] = i;
+        }
+    }
+    
+    TreeNode* createTree(vector<int>&pre,int pS,int pE,vector<int>&in,int iS,int iE,unordered_map<int,int>&m){
+        if(pS > pE || iS> iE){ /* It means that the start has cross the end */
+            return NULL;
+        }
+        
+        TreeNode* root = new TreeNode(pre[pS]);
+        int inInd = m[root->val];
+        int numLeft = inInd - iS;
+        
+        root->left = createTree(pre,pS+1,pS+numLeft,in,iS,inInd-1,m);
+        root->right = createTree(pre,pS+numLeft+1,pE,in,inInd+1,iE,m);
+        
+        return root;
+    };
+public:
+    TreeNode* bstFromPreorder(vector<int>& preorder) {
+        vector<int>inorder;
+        int n = preorder.size();
+        
+        for(int i=0;i<n;++i){
+            inorder.push_back(preorder[i]);
+        }
+        sort(inorder.begin(),inorder.end());
+
+        unordered_map<int,int>m;
+        
+        storeInIndex(m,inorder); /* To store in the index of the inorder traversal */
+        
+        return createTree(preorder,0,n-1,inorder,0,n-1,m); 
+    }
+};
+
+
+Method - 2 ---------------------
+
+TreeNode* createTree(vector<int>&pre,int &i,int maxValue){
+        if(i == pre.size() || pre[i] > maxValue){
+            return NULL;
+        }
+        
+        TreeNode* root = new TreeNode(pre[i]);
+        i++;
+        root->left = createTree(pre,i,root->val); /* While going left the maxValue for that node wiil be the root->val */
+        root->right = createTree(pre,i,maxValue); /* While going right the we are transfering the maxVlaue */
+        
+        return root;
+}
+
+/* Below code are inside the main function */
+int i=0; /* For traversing */
+return createTree(preorder,i,INT_MAX);

@@ -1,0 +1,38 @@
+Question-40
+
+700. Search in a Binary Search Tree ------------- Leetcode
+
+
+class Solution {
+public:
+    TreeNode* searchBST(TreeNode* root, int val) {
+        /* METHOD-1 */
+
+        while(root != NULL && root->val != val){
+            if(val < root->val){
+                root = root->left;
+            }else{
+                root = root->right;
+            }
+        }
+        
+        return root;
+        
+        /* METHOD-2 */
+        
+          if(root == NULL){
+              return NULL;
+          }
+          
+          if(root->val == val){
+              return root;
+          }
+           
+          if(val < root->val){
+              return searchBST(root->left,val);
+          }else{
+              return searchBST(root->right,val);
+          }
+          
+    }
+};

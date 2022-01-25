@@ -1,0 +1,80 @@
+Question-44
+
+
+653. Two Sum IV - Input is a BST ---------- Leetcode
+
+
+Method - 1 -------------
+
+
+class Solution {
+    void inorder(TreeNode* root, vector<int>&res){
+        if(root == NULL){
+            return;
+        }
+        inorder(root->left,res);
+        res.push_back(root->val);
+        inorder(root->right,res);
+    }
+public:
+    bool findTarget(TreeNode* root, int k) {
+        vector<int>res;
+        inorder(root,res);
+        
+        unordered_map<int,int>m;
+        
+        for(int i=0;i<res.size();++i){
+            m[res[i]]++;
+        }
+        
+        int flag = 0;
+        
+        for(int i=0;i<res.size();++i){
+            int temp = k-res[i];
+            if(m.find(temp) != m.end() && temp != res[i]){
+                return true;
+            }
+        }
+        
+        return false;
+    }
+};
+
+
+Method - 2
+
+class Solution {
+    
+    bool dfs(unordered_map<int,bool>&m, TreeNode*root, int k){
+        if(root == NULL){
+            return false;
+        }
+        
+        if(m[k - root->val] == true){
+            return true;
+        }
+        
+        m[root->val] = true;
+        
+        bool l = dfs(m,root->left,k);
+        bool r = dfs(m,root->right,k);
+        
+        if(l == true || r == true){
+            return true;
+        }
+        return false;
+    
+    };
+    
+public:
+    bool findTarget(TreeNode* root, int k) {
+        unordered_map<int,bool>m;
+        
+        if(dfs(m,root,k)){
+            return true;
+        }
+        
+        return false;
+    }
+    
+};
