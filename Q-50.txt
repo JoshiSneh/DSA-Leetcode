@@ -1,0 +1,36 @@
+Question-50
+
+
+814. Binary Tree Pruning -------------- Leetcode
+
+
+class Solution {
+    bool dfs(TreeNode* root){
+        if(root == NULL){
+            return false;
+        }
+        
+        bool l = dfs(root->left);
+        bool r = dfs(root->right);
+        
+        if(l == false){
+            root->left=NULL;
+        }
+        if(r == false){
+            root->right=NULL;
+        }
+        
+        if(l == true || r == true || root->val == 1){
+            return true;
+        }
+        return false;
+    };
+public:
+    TreeNode* pruneTree(TreeNode* root) {
+        
+        if(dfs(root)){
+            return root;
+        }
+        return NULL;
+    }
+};

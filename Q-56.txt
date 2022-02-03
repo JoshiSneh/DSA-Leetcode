@@ -1,0 +1,80 @@
+Question-56
+
+
+51. N-Queens ----------- Leetcode
+
+
+class Solution {
+private:
+    bool isSafe(int row, int col, vector<string>board, int n){
+        int orgRow = row;
+        int orgCol = col;
+        
+        /* This check is for Upper Diagonal */
+        
+        while(row>=0 && col>=0){
+            if(board[row][col] == 'Q'){
+                return false;
+            }
+            row--;
+            col--;
+        }
+        
+        /* This check is for the left side */
+        
+        row = orgRow;
+        col = orgCol;
+        
+        while(col>=0){
+            if(board[row][col] == 'Q'){
+                return false;
+            }
+            col--;
+        }
+        
+        /* This check is for the Lower Diagonal */
+        
+        row = orgRow;
+        col = orgCol;
+        
+        while(row < n && col>=0){
+            if(board[row][col] == 'Q'){
+                return false;
+            }
+            row++;
+            col--;
+        }
+        
+        return true;
+        
+    };
+private: 
+    void dfs(vector<vector<string>>&res, vector<string>&board,int n, int col){
+        if(col == n){
+            res.push_back(board);
+            return;
+        }  
+        
+        for(int row=0;row<n;++row){
+            if(isSafe(row,col,board,n) == true){
+                board[row][col] = 'Q';
+                dfs(res,board,n,col+1);
+                board[row][col] = '.';
+            }
+        }
+    };
+public:
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>>res;
+        vector<string>board(n);
+        string s(n,'.'); /* Making a string of length n and initializing every index of string with "." */
+        
+        for(int i=0;i<n;++i){
+            board[i] = s; /* Putting that string s on every index of board */
+        }
+        
+        dfs(res,board,n,0);
+        
+        return res;
+    }
+};

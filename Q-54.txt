@@ -1,0 +1,65 @@
+Question-54
+
+
+1026. Maximum Difference Between Node and Ancestor ------- Leetcode
+
+/* Method - 1 */
+
+class Solution {
+private:
+    int maxValue = INT_MIN;
+    int minValue = INT_MAX;
+    
+    int maxDiff = INT_MIN;
+    void check(vector<int>&res, TreeNode* root){
+        if(root == NULL){
+            return;
+        }
+        res.push_back(root->val);
+        
+        if(root->left == NULL && root->right == NULL){
+            maxValue = *max_element(res.begin(),res.end());
+            minValue = *min_element(res.begin(),res.end());
+            maxDiff = max(maxDiff,abs(maxValue-minValue));
+            res.pop_back();
+            return;
+        }
+        
+        check(res,root->left);
+        check(res,root->right);
+        res.pop_back();
+    };
+public:
+    int maxAncestorDiff(TreeNode* root){
+        vector<int>res;
+        check(res,root);
+        return maxDiff;
+    }
+};
+
+/* Method - 2 */
+
+  void check(TreeNode* root,int maxValue, int minValue){
+        if(root == NULL){
+            return;
+        }
+        
+        maxValue = max(maxValue,root->val);
+        minValue = min(minValue,root->val);
+        
+        maxDiff = max(maxDiff,abs(maxValue-minValue));
+        cout<<maxDiff<<" ";
+        check(root->left,maxValue,minValue);
+        check(root->right,maxValue,minValue);
+    }
+public:
+    int maxAncestorDiff(TreeNode* root){
+        // vector<int>res;
+        check(root,INT_MIN,INT_MAX);
+        // return maxDiff;
+        
+        /*------Method-2----------*/
+        
+        return maxDiff;
+    }
+};

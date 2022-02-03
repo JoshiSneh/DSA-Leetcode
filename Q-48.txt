@@ -1,0 +1,51 @@
+Question-48
+
+1305. All Elements in Two Binary Search Trees -------- Leetcode
+
+class Solution {
+    
+    void inorder(TreeNode* root,vector<int>&res){
+        if(root == NULL){
+            return;
+        }
+        inorder(root->left,res);
+        res.push_back(root->val);
+        inorder(root->right,res);
+    };
+public:
+    vector<int> getAllElements(TreeNode* root1, TreeNode* root2) {
+        vector<int>res1;
+        vector<int>res2;
+        inorder(root1,res1);
+        inorder(root2,res2);
+        
+        int n = res1.size();
+        int m = res2.size();
+        
+        /* Algorithm for merge Two sorted array */
+        
+        int i=0;
+        int j=0;
+        vector<int>res;
+        while(i<n && j<m){
+            if(res1[i]<=res2[j]){
+                res.push_back(res1[i]);
+                i++;
+            }else{
+                res.push_back(res2[j]);
+                j++;
+            }
+        }
+        
+        while(i<n){
+            res.push_back(res1[i]);
+            i++;
+        }
+        
+        while(j<m){
+            res.push_back(res2[j]);
+            j++;
+        }
+        return res;
+    }
+};

@@ -1,0 +1,37 @@
+Question-47
+
+173. Binary Search Tree Iterator ---------- Leetcode
+
+
+class BSTIterator {
+    
+    stack<TreeNode*>s; 
+    
+    void pushElement(TreeNode* root){ /* Go as left as possible */
+        TreeNode* temp = root;
+
+        while(temp != NULL){
+           s.push(temp);
+           temp = temp->left;
+        }
+    }
+public:
+    BSTIterator(TreeNode* root) {
+        pushElement(root);
+    }
+    
+    int next(){
+        TreeNode* temp = s.top();
+        s.pop();
+        pushElement(temp->right);
+        return temp->val;
+        
+    }
+    
+    bool hasNext() {
+        if(s.empty()){ /* If stack is empty then we can sure that we don't have any next */
+            return false;
+        }
+        return true;
+    }
+};

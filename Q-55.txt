@@ -1,0 +1,51 @@
+Question-55
+
+
+437. Path Sum III --------------- Leetcode
+
+
+class Solution {
+    vector<int>res;
+    
+    void sumCal(TreeNode* root, int &sum){
+        if(root == NULL){
+            return;
+        }
+        sum+=root->val;
+        res.push_back(sum);
+        
+        sumCal(root->left,sum);
+        sumCal(root->right,sum);
+        sum-=root->val;
+        
+    }
+    
+    void path(TreeNode* root){ /* Calculating the sum for node */
+        if(root == NULL){
+            return;
+        }
+        
+        int sum = 0;
+        sumCal(root->left,sum);
+        cout<<sum<<" ";
+        sumCal(root->right,sum);
+        
+        path(root->left);
+        path(root->right);
+        
+    }
+public:
+    int pathSum(TreeNode* root, int targetSum) {
+       int sum = 0;
+       sumCal(root,sum); /* Calculating all the possible path for root */
+       path(root); 
+         
+        int count = 0;
+        for(auto i:res){
+            if( i == targetSum ){
+                count++;
+            }
+        }
+        return count;
+    }
+};

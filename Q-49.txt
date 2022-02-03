@@ -1,0 +1,39 @@
+Question-49
+
+623. Add One Row to Tree -------------------- Leetcode
+
+
+class Solution {
+    TreeNode* dfs(TreeNode* root,int val, int curDep,int depth){
+        if(root == NULL){
+            return NULL;
+        }
+        
+        if(depth == 1){
+            TreeNode* node = new TreeNode(val);
+            node->left = root;
+            return node;
+        }
+        
+        if(curDep == depth-1){
+            TreeNode* node1 = new TreeNode(val);
+            TreeNode* node2 = new TreeNode(val);
+            
+            node1->left = root->left;
+            node2->right = root->right;
+            
+            root->left = node1;
+            root->right = node2;
+            
+            return root;
+        }
+        
+        dfs(root->left,val,curDep+1,depth);
+        dfs(root->right,val,curDep+1,depth);
+        return root;
+    }
+public:
+    TreeNode* addOneRow(TreeNode* root, int val, int depth) {
+        return dfs(root,val,1,depth);
+    }
+};

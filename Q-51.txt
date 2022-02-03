@@ -1,0 +1,38 @@
+Question-51
+
+
+2155. All Divisions With the Highest Score of a Binary Array ------ Leetcode
+
+
+
+class Solution {
+public:
+    vector<int> maxScoreIndices(vector<int>& nums) {
+        vector<int>res;
+        /* Initially the count of One is sum of array and count of Zero is 0*/
+        
+        int countOnes = accumulate(nums.begin(),nums.end(),0);
+        int countZeros = 0;
+        int temp = INT_MIN;
+        int n = nums.size();
+        
+        for(int i=0;i<=n;++i){
+            int score = countOnes + countZeros;
+            if(score > temp){
+                res.clear();
+                temp = score;
+            }else if(score == temp){
+                res.push_back(i);
+            }
+            
+            if(i < n){
+                if(nums[i] == 0){
+                    countZeros+=1; /* If we are at zero then we have to increment the count of 0 since we are going from left to right */
+                }else{
+                    countOnes-=1; /* If we are at one then we have to decrement the count of 1 since we are going from left to right as we have added the number of 1 while calcualting the sum */
+                }
+            }
+        }
+        return res;
+    }
+};
