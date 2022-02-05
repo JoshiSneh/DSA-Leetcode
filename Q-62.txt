@@ -1,0 +1,37 @@
+Question-62
+
+
+687. Longest Univalue Path ----------- Leetcode
+
+
+class Solution {
+private:
+    int maxPath = 0;
+    
+    int dfs(TreeNode* root){
+        if(root == NULL) return 0;
+        
+        int l = dfs(root->left);
+        int r = dfs(root->right);
+        
+        int lf = 0, rh = 0;
+        
+        if(root->left != NULL && root->left->val == root->val){
+           lf+=l;
+        }
+        
+        if(root->right != NULL && root->right->val == root->val){
+           rh+=r;
+        }
+        
+        maxPath = max(maxPath, lf+rh);
+        
+        return max(lf,rh)+1;
+    };
+    
+public:
+    int longestUnivaluePath(TreeNode* root) {
+        dfs(root);
+        return maxPath;
+    }
+};

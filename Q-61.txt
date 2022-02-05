@@ -1,0 +1,44 @@
+Question-61
+
+
+508. Most Frequent Subtree Sum ------------- Leetcode
+
+
+class Solution {
+private:
+    unordered_map<int,int>m;
+    
+    int dfs(TreeNode* root){
+        if(root == NULL){
+            return 0;
+        }
+        
+        int l = dfs(root->left);
+        int r = dfs(root->right);
+        
+        m[l+r+root->val]++;
+        
+        return l+r+root->val;
+        
+    };
+public:
+    vector<int> findFrequentTreeSum(TreeNode* root) {
+        vector<int>res;
+        dfs(root);
+        
+        int pre = 0;
+        
+        for(auto i:m){
+            if(i.second > pre){
+                res.clear();
+                pre = i.second;
+            }
+            
+            if(pre == i.second){
+                res.push_back(i.first);
+            }
+        }
+        
+        return res;
+    }
+};

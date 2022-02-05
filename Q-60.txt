@@ -1,0 +1,41 @@
+Question-60
+
+
+572. Subtree of Another Tree ------ Leetcode
+
+
+class Solution {
+    bool isIdentical(TreeNode* root, TreeNode* subRoot){
+        if(root == NULL || subRoot == NULL){
+            return root == subRoot;
+        }
+        
+        if(root->val != subRoot->val){
+            return false;
+        }
+        
+        bool l = isIdentical(root->left,subRoot->left);
+        bool r = isIdentical(root->right,subRoot->right);
+        
+        if(l == false || r == false) return false;
+        
+        return true;
+    };
+public:
+    bool isSubtree(TreeNode* root, TreeNode* subRoot) {
+        if(root == NULL){
+            return false;
+        }
+        
+        if(isIdentical(root,subRoot) == true){
+            return true;
+        };
+        
+        bool l = isSubtree(root->left,subRoot);
+        bool r = isSubtree(root->right,subRoot);
+        
+        if(l == true || r == true) return true;
+        
+        return false;
+    }
+};
