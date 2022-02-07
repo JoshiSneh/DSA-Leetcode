@@ -1,0 +1,29 @@
+Question-5
+
+
+1791. Find Center of Star Graph ------------ Leetcode
+
+
+class Solution {
+public:
+    int findCenter(vector<vector<int>>& edges){
+         unordered_map<int,int>m;
+        int n = edges.size();
+        
+        for(int i=0;i<n;++i){
+            m[edges[i][0]]++;
+            m[edges[i][1]]++;
+            
+            cout<<m[edges[i][0]]<<" "<<m[edges[i][1]]<<"#";
+            if(m[edges[i][0]] == n){
+                return edges[i][0];
+            }
+            
+            if(m[edges[i][1]] == n){
+                return edges[i][1];
+            }
+        }
+        
+        return -1;
+    }
+};

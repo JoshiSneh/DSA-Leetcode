@@ -1,0 +1,90 @@
+Question-4
+
+
+Bipartite Graph -------------- GFG
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+/* Method-1 Using BFS */
+
+class Solution {
+    
+    bool bipartiteBFS(int node, vector<int>&color, vector<int>adj[]){
+        queue<int>q;
+        q.push(node);
+        
+        color[node] = 1; /* We can mark with any color i.e 0/1 */
+        
+        while(!q.empty()){
+            int temp = q.front();
+            q.pop();
+            
+            for(auto i:adj[temp]){
+                if(color[i] == -1){
+                    q.push(i);
+                    color[i] = 1-color[temp];
+                }else if(color[i] != -1 && color[i] == color[temp]){
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    };
+public:
+	bool isBipartite(int V, vector<int>adj[]){
+	   vector<int>color(V+1,-1);
+	   
+	   for(int i = 0;i<V;++i){
+	       if(color[i] == -1){
+	           if(bipartiteBFS(i,color,adj) == false){
+	               return false;
+	           }
+	       }
+	   }
+	   
+	   return true;
+	}
+
+};
+
+/* Method-2 Using DFS */
+
+class Solution {
+    
+    bool bipartiteDFS(int node, vector<int>&color, vector<int>adj[]){
+        if(color[node] == -1){
+           color[node] = 1;
+        }
+        
+        for(auto i:adj[node]){
+            if(color[i] == -1){
+                color[i] = 1-color[node];
+                if(bipartiteDFS(i,color,adj) == false){
+                    return false;
+                };
+            }else if(color[i] != -1 && color[i] == color[node]){
+                return false;
+            }
+        }
+        
+        return true;
+    };
+public:
+	bool isBipartite(int V, vector<int>adj[]){
+	   vector<int>color(V+1,-1);
+	   
+	   for(int i = 0;i<V;++i){
+	       if(color[i] == -1){
+	           if(bipartiteDFS(i,color,adj) == false){
+	               return false;
+	           }
+	       }
+	   }
+	   
+	   return true;
+	}
+
+};

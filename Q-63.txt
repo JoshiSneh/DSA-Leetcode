@@ -1,0 +1,33 @@
+Question-63
+
+
+Minimum Depth of a Binary Tree ----------- GFG
+
+
+class Solution{
+  
+  private:
+    int minDep = INT_MAX;
+    
+    void minHeight(Node* root, int count){
+        if(root == NULL){
+            return;
+        }
+        count++;
+        
+        if(root->left == NULL && root->right == NULL){
+             minDep = min(minDep,count);
+             return;
+        }
+        
+        minHeight(root->left,count);
+        minHeight(root->right,count);
+    }
+  public:
+    /*You are required to complete this method*/
+    int minDepth(Node *root) {
+        int count = 0;
+        minHeight(root,count);
+        return minDep;
+    }
+};

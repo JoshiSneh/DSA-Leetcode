@@ -1,0 +1,28 @@
+Question-2
+
+
+DFS of Graph ------------- GFG
+
+
+class Solution {
+  private:
+    void dfs(int node,vector<int>adj[],vector<int>&res,vector<int>&vis){
+        res.push_back(node);
+        vis[node] = 1;
+        
+        for(auto i:adj[node]){
+            if(vis[i] == 0){
+                dfs(i,adj,res,vis);
+            }
+        }
+    };
+  public:
+    // Function to return a list containing the DFS traversal of the graph.
+    vector<int> dfsOfGraph(int V, vector<int> adj[]) {
+        vector<int>res;
+        vector<int>vis(V+1,0);
+        
+        dfs(0,adj,res,vis);
+        return res;
+    }
+};
