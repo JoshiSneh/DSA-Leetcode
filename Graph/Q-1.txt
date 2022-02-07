@@ -1,6 +1,6 @@
 Question-1
 
-BFS of graph (Single Component)---------- GFG
+BFS of graph ( Single Component )---------- GFG
 
 class Solution {
   public:
