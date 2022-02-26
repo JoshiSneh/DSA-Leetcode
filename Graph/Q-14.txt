@@ -1,0 +1,89 @@
+Question-14
+
+
+Implementing Dijkstra Algorithm -------- GFG
+
+
+/* Method-1 Using Priority Queue */
+
+class Solution
+{
+	public:
+	//Function to find the shortest distance of all the vertices
+    //from the source vertex S.
+    vector <int> dijkstra(int V, vector<vector<int>> adj[], int S){
+        vector<int>res;
+        priority_queue <pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+        
+        int dis[V];
+        
+        for(int i=0;i<V;++i){
+            dis[i] = INT_MAX;
+        }
+        
+        pq.push({0,S});
+        dis[S] = 0;
+        
+        while(!pq.empty()){
+            auto node = pq.top();
+            pq.pop();
+            
+            for(auto i:adj[node.second]){
+                if(dis[node.second] + i[1] < dis[i[0]]){
+                    dis[i[0]] = dis[node.second]+i[1];
+                    pq.push({dis[node.second]+i[1],i[0]});
+                }
+            }
+            
+        }
+        
+        for(int i=0;i<V;++i){
+            res.push_back(dis[i]);
+        }
+        
+        return res;
+    }
+};
+
+/* Method-1 Using Queue */
+
+
+class Solution
+{
+	public:
+	//Function to find the shortest distance of all the vertices
+    //from the source vertex S.
+    vector <int> dijkstra(int V, vector<vector<int>> adj[], int S){
+        vector<int>res;
+        
+        int dis[V];
+        
+        for(int i=0;i<V;++i){
+            dis[i] = INT_MAX;
+        }
+        
+        queue<int>q;
+        q.push(S);
+        
+        dis[S] = 0;
+        
+        while(!q.empty()){
+            int node = q.front();
+            q.pop();
+            
+            for(auto i:adj[node]){
+                if(dis[node] + i[1] < dis[i[0]]){
+                    dis[i[0]] = dis[node]+i[1];
+                    q.push(i[0]);
+                }
+            }
+            
+        }
+        
+        for(int i=0;i<V;++i){
+            res.push_back(dis[i]);
+        }
+        
+        return res;
+    }
+};

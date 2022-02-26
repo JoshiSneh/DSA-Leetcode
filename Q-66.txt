@@ -1,0 +1,43 @@
+Question-66
+
+
+1038. Binary Search Tree to Greater Sum Tree -------- Leetcode
+
+
+/* We want greater sum for every node 
+
+  like 8  7  6  5  4  3  2  1  0
+       8 15 21  26 30 33 35 36 36
+       
+  So, just do reverse inorder traversal like and add val of node in the preSum and return the preSum
+
+*/
+class Solution {
+private:
+    int preSum = 0;
+    
+    int createTree(TreeNode* root){
+        if(root == NULL){
+            return 0;
+        }
+        
+        int r = createTree(root->right);
+        
+        int temp = root->val;
+        root->val = root->val+preSum;
+        preSum = preSum+root->val;
+
+        int l = createTree(root->left);
+        
+        return preSum;
+    }
+public:
+    TreeNode* bstToGst(TreeNode* root) {
+        if(root == NULL){
+            return NULL;
+        }
+        
+        createTree(root);
+        return root;
+    }
+};

@@ -1,0 +1,36 @@
+Question-71
+
+
+1382. Balance a Binary Search Tree ------- Leetcode
+
+
+class Solution {
+private:
+    void inorder(TreeNode* root, vector<int>&res){
+        if(root == NULL){
+            return;
+        }
+        
+        inorder(root->left,res);
+        res.push_back(root->val);
+        inorder(root->right,res);
+    };
+private:
+    TreeNode* createTree(vector<int>&res,int start,int end){
+        if(start > end){
+            return NULL;
+        }
+        int mid = start + (end-start)/2;
+        TreeNode* node = new TreeNode(res[mid]);
+        node->left = createTree(res,start,mid-1);
+        node->right = createTree(res,mid+1,end);
+        return node;
+    };
+public:
+    TreeNode* balanceBST(TreeNode* root) {
+        vector<int>res;
+        inorder(root,res);
+        int n = res.size();
+        return createTree(res,0,n-1);
+    }
+};

@@ -1,0 +1,73 @@
+/* Method-1 */
+
+T.C = (N2)
+S.C = (N2)
+
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        
+        int row = matrix.size();
+        int col = matrix[0].size();
+        vector<vector<int>>res(row,vector<int>(col,0));
+        
+        /* Pattern is like that for 
+           (0,0)-->(0,2)
+           (0,1)-->(1,2)
+           (0,2)-->(2,2)
+           
+           (1,0)-->(0,1)
+           (1,1)-->(1,1)
+           (1,2)-->(2,1)
+           
+           here we can see that the column is fixed and the row is moving
+        */
+        
+        int y = col-1; 
+        int x = 0;
+        
+        for(int i=0;i<row;++i){
+            for(int j=0;j<col;++j){
+                int temp = matrix[i][j];
+                res[x][y] = temp;
+                x++;
+            }
+            y--;
+            x=0;
+        }
+        
+        for(int i=0;i<row;++i){
+          for(int j=0;j<col;++j){
+              matrix[i][j] = res[i][j];
+          }    
+        }
+        
+    }
+};
+
+/* Method-2 */
+
+T.C O(N2)
+S.C O(1)
+
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        
+        /* Transpose of a matrix */
+        
+        for(int i=0;i<n;++i){
+           for(int j=0;j<i;++j){
+               swap(matrix[i][j],matrix[j][i]);
+           }    
+        }j
+        
+        /* Reverse the matrix by Row Wise */
+        
+        for(int i=0;i<n;++i){
+           reverse(matrix[i].begin(),matrix[i].end());    
+        }
+        
+    }
+};

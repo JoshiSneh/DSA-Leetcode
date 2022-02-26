@@ -1,0 +1,52 @@
+Question-67
+
+
+1054. Distant Barcodes ----------- Leetcode
+
+
+class Solution {
+public:
+    vector<int> rearrangeBarcodes(vector<int>& barcodes) {
+        unordered_map<int,int>m;
+        priority_queue<pair<int,int>>maxHeap;
+        int n = barcodes.size();
+        
+        for(int i=0;i<n;++i){
+            m[barcodes[i]]++;
+        }
+        
+        for(auto i:m){
+            maxHeap.push({i.second,i.first});
+        }
+        
+        vector<int>res;
+        
+        while(maxHeap.size() > 1){
+            auto top1=maxHeap.top();
+            maxHeap.pop();
+            
+            auto top2=maxHeap.top();
+            maxHeap.pop();
+            
+            res.push_back(top1.second);
+            res.push_back(top2.second);
+            
+            top1.first--;
+            top2.first--;
+            
+            if(top1.first > 0){
+                maxHeap.push(top1);
+            }
+            
+            if(top2.first > 0){
+                maxHeap.push(top2);
+            }
+        }
+        
+        if(!maxHeap.empty()){
+            res.push_back(maxHeap.top().second);
+        }
+        return res;
+        
+    }
+};

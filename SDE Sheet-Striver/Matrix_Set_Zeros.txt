@@ -1,0 +1,74 @@
+/* Method-1 */
+
+class Solution {
+private:
+    void set(vector<vector<int>>&res,int i,int j,int n,int m){
+        
+        /* Row Iteration -- j will be fixed */
+        
+        for(int k=0;k<n;++k){
+            res[k][j]=0;
+            cout<<k<<" "<<j<<endl;
+        }
+        
+        /* Column Iteration -- i will be fixed */
+        
+        for(int k=0;k<m;++k){
+            res[i][k]=0;
+            cout<<i<<" "<<k<<endl;
+        }
+    }
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        
+        vector<vector<int>>res(n,vector<int>(m,-1));
+        
+        for(int i=0;i<n;++i){
+           for(int j=0;j<m;++j){
+               if(matrix[i][j] == 0){
+                   set(res,i,j,n,m);
+               }else if(matrix[i][j] != 0 && res[i][j] != 0){
+                   res[i][j] = matrix[i][j];
+               }
+           }
+        }
+
+        for(int i=0;i<n;++i){
+            for(int j=0;j<m;++j){
+                matrix[i][j] = res[i][j];
+            }
+        }
+        
+    }
+};
+
+/* Method-2 */
+
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix){
+
+        int col0 = 1;
+        int row = matrix.size();
+        int col = matrix[0].size();
+        
+        for(int i=0;i<row;++i){
+            if(matrix[i][0] == 0) col0 = 0;
+            for(int j=1;j<col;++j){
+                if(matrix[i][j] == 0){
+                    matrix[i][0] = matrix[0][j] = 0;
+                }
+            }
+        }
+        
+        for(int i=row-1;i>=0;--i){
+           for(int j=col-1;j>=1;--j){
+               if(matrix[i][0] == 0 || matrix[0][j] == 0) matrix[i][j] = 0;
+           }
+           if(col0 == 0){ matrix[i][0] = 0;}
+        }
+        
+    } 
+};

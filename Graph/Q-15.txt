@@ -1,0 +1,52 @@
+Question-15
+
+
+1976. Number of Ways to Arrive at Destination -------- Leetcode
+
+
+class Solution {
+public:
+    int countPaths(int n, vector<vector<int>>& roads) {
+        long long mod = 1e9+7;
+        vector<long long>ways(n,0);
+        vector<long long>dis(n,LLONG_MAX);
+        
+        vector<pair<long long,long long>>adj[n];
+        
+        for(auto i:roads){
+            adj[i[0]].push_back({i[1],i[2]});
+            adj[i[1]].push_back({i[0],i[2]});
+        }
+        
+        priority_queue<pair<long long,long long>,vector<pair<long long,long long>>,greater<pair<long long ,long long>>>pq;
+        
+        /* Distance, Node */
+        
+        pq.push({0,0});
+        dis[0] = 0;
+        ways[0] = 1;
+        
+        
+        while(!pq.empty()){
+            long long node = pq.top().second;
+            long long dist = pq.top().first;
+            pq.pop();
+
+            for(auto i:adj[node]){
+                long long wt = i.second;
+                long long adjNode = i.first;
+                
+                if(dist+wt < dis[adjNode]){
+                    dis[adjNode] = dist+wt;
+                    ways[adjNode] = ways[node];
+                    pq.push({dis[adjNode],adjNode});
+                }else if(dist + wt == dis[adjNode]){
+                    ways[adjNode] = (ways[adjNode] + ways[node])%mod;
+                }
+            }
+            
+        }
+
+        return ways[n-1];
+    }
+};

@@ -1,0 +1,85 @@
+Question-7
+
+
+Topological sort ------------- GFG
+
+/* Method-1 Using DFS */
+
+class Solution{
+    private:
+     stack<int>s;
+     
+     void dfs(int node,vector<int>&vis,vector<int>adj[]){
+          vis[node] = 1;
+          
+          for(auto i:adj[node]){
+              if(vis[i] == 0){
+                  dfs(i,vis,adj);
+              }
+          }
+          
+          s.push(node);
+          return;
+     }
+     
+	public:
+ 
+	vector<int> topoSort(int V, vector<int> adj[]) {
+	    vector<int>vis(V+1,0);
+	    vector<int>res;
+	    for(int i=0;i<V;++i){
+	        if(vis[i] == 0){
+	            dfs(i,vis,adj);
+	        }
+	    }
+	    
+	    while(!s.empty()){
+	        int temp = s.top();
+	        s.pop();
+	        res.push_back(temp);
+	    }
+	    return res;
+	}
+};
+
+
+/* Method-2 Using BFS */
+
+class Solution
+{
+	public:
+	//Function to return list containing vertices in Topological order. 
+	vector<int> topoSort(int V, vector<int> adj[]) {
+	    vector<int>res;
+	    vector<int>inDegree(V+1,0);
+	    
+	    /* Calculating InDegree */
+	    for(int i=0;i<V;++i){
+	        for(auto it:adj[i]){
+	            inDegree[it]++;
+	        }
+	    }
+	    
+	    queue<int>q;
+	    
+	    for(int i=0;i<V;++i){
+	        if(inDegree[i] == 0){
+	            q.push(i);
+	        }
+	    }
+	    
+	    while(!q.empty()){
+	        int node = q.front();
+	        q.pop();
+	        res.push_back(node);
+	        for(auto i:adj[node]){
+	            inDegree[i]--;
+	            if(inDegree[i] == 0){
+	                q.push(i);
+	            }
+	        }
+	    }
+	    
+	    return res;
+	}
+};

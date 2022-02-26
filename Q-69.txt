@@ -1,0 +1,29 @@
+Question-69
+
+
+965. Univalued Binary Tree ------------- Leetcode
+
+
+class Solution {
+private:
+    bool dfs(TreeNode* root, int target){
+        if(root == NULL){
+            return true;
+        }
+        
+        if(root->val != target){
+            return false;
+        }
+        
+        bool l=dfs(root->left,target);
+        if(l != true) return false;
+        bool r=dfs(root->right,target);
+        if(r != true) return false;
+        return true;
+    }
+public:
+    bool isUnivalTree(TreeNode* root){
+        if(dfs(root,root->val))return true;
+        return false;
+    }
+};

@@ -1,0 +1,51 @@
+Question-16
+
+
+695. Max Area of Island ---------- Leetcode
+
+
+class Solution {
+private:
+    void dfs(int i, int j, vector<vector<int>>&grid, int &count,vector<vector<int>>&vis,int n,int m){
+        if(i < 0 || i >=n || j < 0 || j >=m|| grid[i][j] == 0 || vis[i][j] == 1){
+            return;
+        }
+        
+        vis[i][j] = 1;
+        count++;
+        dfs(i-1,j,grid,count,vis,n,m);
+        dfs(i,j+1,grid,count,vis,n,m);
+        dfs(i+1,j,grid,count,vis,n,m);
+        dfs(i,j-1,grid,count,vis,n,m);
+        
+    }
+public:
+    int maxAreaOfIsland(vector<vector<int>>& grid) {
+        int n = grid.size();
+        int m = grid[0].size();
+        
+        vector<vector<int>> vis(n, vector<int>(m));
+
+          for (int i = 0; i < n; ++i){
+                for (int j = 0; j < m; ++j){
+                    vis[i][j] = 0;
+                }
+           }
+        
+        int count = 0;
+        int area = 0;
+
+        for(int i=0;i<n;++i){
+            for(int j=0;j<m;++j){
+                if(vis[i][j] == 0 && grid[i][j] == 1){
+                    count = 0;
+                    dfs(i,j,grid,count,vis,n,m);
+                    area = max(area,count);
+                }
+            }
+        }
+        
+        return area;
+        
+    }
+};

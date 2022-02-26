@@ -1,0 +1,40 @@
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) {
+        int n = nums.size();
+        
+        int breakInd ; /* First Step is to find the brakInd */
+        
+        for(int i=n-2;i>=0;--i){
+            if(nums[i] < nums[i+1]){
+                breakInd = i;
+                break;
+            }
+        }
+        
+        if(breakInd<0){ /* If there is no break point then just reverse it */
+            reverse(nums.begin(),nums.end());
+        }else{
+            
+            int greaterInd;/* Find the element greater then the current breakPoint */
+            for(int i=n-1;i>=0;--i){
+                if(nums[i]>nums[breakInd]){
+                    greaterInd = i;
+                    break;
+                }
+            }
+            swap(nums[breakInd],nums[greaterInd]); /* Swap the two breakInd and greaterInd */
+            
+            /* Used two pointer approach for reversing but we can use the inbuilt stl reverse stl library */
+            int i=breakInd+1;
+            int j=n-1;
+            
+            while(i<=j){
+                swap(nums[i],nums[j]);
+                i++;
+                j--;
+            }
+        }
+        
+    }
+};

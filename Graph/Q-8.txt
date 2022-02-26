@@ -1,0 +1,88 @@
+Question-8
+
+994. Rotting Oranges ----------- Leetcode
+
+struct node{
+    int x;
+    int y;
+    int time;
+
+    node(int _x, int _y, int _t){
+        x = _x;
+        y = _y;
+        time = _t;
+    }
+};
+
+class Solution {
+
+public:
+    int orangesRotting(vector<vector<int>>& grid) {
+        int n = grid.size();
+        int m = grid[0].size();
+        
+        int countOranges = 0;
+        
+        queue<node>q; /* Put all oranges that are rotten in a queue */
+        
+        for(int i=0;i<n;++i){
+            for(int j=0;j<m;++j){
+                if(grid[i][j] == 2){
+                    q.push(node(i,j,0));
+                }
+                
+                if(grid[i][j] != 0){
+                    countOranges++;
+                }
+            }
+        }
+        
+        int countRotOranges = 0;
+        
+        int ans = 0;
+        
+        while(!q.empty()){
+            int x = q.front().x;
+            int y = q.front().y;
+            int t = q.front().time;
+            
+            q.pop();
+            countRotOranges++;
+            
+            ans = max(ans,t);
+            
+            /* Top */
+            
+            if(x-1>=0 && grid[x-1][y] == 1){
+                grid[x-1][y] = 2;
+                q.push(node(x-1,y,t+1));
+            }
+            
+            /* Right */
+            
+            if(y+1<m && grid[x][y+1] == 1){
+                grid[x][y+1] = 2;
+                q.push(node(x,y+1,t+1));
+            }
+            
+            /* Down */
+            
+            if(x+1<n && grid[x+1][y] == 1){
+                grid[x+1][y] = 2;
+                q.push(node(x+1,y,t+1));
+            }
+            
+            /* Left */
+            
+            if(y-1>=0 && grid[x][y-1] == 1){
+                grid[x][y-1] = 2;
+                q.push(node(x,y-1,t+1));
+            }
+        }
+        
+        if(countOranges == countRotOranges){
+            return ans;
+        }
+        return -1;
+    }
+};
