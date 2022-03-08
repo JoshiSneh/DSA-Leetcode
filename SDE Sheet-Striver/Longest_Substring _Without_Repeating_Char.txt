@@ -1,0 +1,81 @@
+/* Method-1 */
+T.C = O(N2)
+S.C = O(N)
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        vector<string>res;
+    
+        int n = s.size();
+        
+        for(int i=0;i<n;++i){
+           string temp = "";
+           for(int j=i;j<n;++j){
+               temp+=s[j];
+               res.push_back(temp);
+           }
+        }
+        
+        unordered_set<char>st;
+        
+        int maxLen = 0;
+        
+        for(int i=0;i<res.size();++i){
+            string temp = res[i];
+            st.clear();
+            for(int j=0;j<temp.size();++j){
+                st.insert(temp[j]);
+            }
+            if(st.size() == temp.size()){
+               if(temp.size() > maxLen){
+                   maxLen = temp.size();
+               }
+            }
+        }
+        
+        return maxLen;
+    }
+};
+
+/* Method-2 */
+T.C = O(2N)
+S.C = O(N)
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+    
+        unordered_map<int,int>m;
+        
+        if(s.length() == 0){
+            return 0;
+        }
+       
+        int i=0;
+        int j=0;
+        
+        int maxLen = 0;
+        
+        while(j<=s.length()-1){
+            m[s[j]]++;
+            
+            if(m.size() < j-i+1){
+                while(m.size() < j-i+1){
+                    m[s[i]]--;
+                    cout<<m[s[i]]<<" "<<s[i]<<endl;
+                    if(m[s[i]] == 0){
+                        m.erase(s[i]);
+                    }
+                    i++;
+                }
+                j++;
+            }else if(m.size() == j-i+1){
+                maxLen = max(maxLen,j-i+1);
+                j++;
+            }
+        }
+        
+        return maxLen;
+    }
+};

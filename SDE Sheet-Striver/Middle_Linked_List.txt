@@ -1,0 +1,51 @@
+/* Method-1 */
+T.C = O(N) + O(N/2);
+S.C = O(1);
+
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+        int n = 0;
+        ListNode* temp = head;
+        while(temp != NULL){
+            n++;
+            temp=temp->next;
+        }
+        
+        n = n/2; /* It will give the number 2(5/2 first T.C) but we want the index 2 so, we have to do the n++ */
+        
+        ListNode* middle;
+        n++;
+        
+        while(n--){
+            middle=head;
+            head=head->next;
+        }
+        
+        return middle;
+    }
+};
+
+/* Method-2 */
+T.C = O(N/2)
+S.C = O(1)
+
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+        ListNode *slow = head;
+        ListNode* fast = head;
+        
+        /*
+         fast != NULL this is for the even size length;
+         fast->next != NULL this is for the odd size length;
+        */
+        
+        while(fast != NULL && fast->next != NULL){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        
+        return slow;
+    }
+};

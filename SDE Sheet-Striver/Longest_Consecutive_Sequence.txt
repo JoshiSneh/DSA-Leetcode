@@ -1,0 +1,75 @@
+/* Method-1 */
+T.C = O(N2) + O(NLOGN) TLE
+S.C = O(1)
+
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        
+        int n = nums.size();
+        
+        if(n == 0){
+            return 0;
+        }
+        
+        sort(nums.begin(),nums.end());
+        
+        int maxLen = INT_MIN;
+        
+        for(int i=0;i<n;++i){
+            int temp = nums[i];
+            int count = 1;
+            for(int j=i+1;j<n;++j){
+                if((nums[j]-temp)==1){
+                   temp = nums[j];
+                   count++;
+                }
+            }
+            maxLen = max(maxLen,count);
+        }
+        
+        return maxLen;
+    }
+};
+
+/* Method-2 */
+T.C = O(N)+O(N)+O(N)
+S.C = O(N)
+
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        int n = nums.size();
+        
+        if(n == 0){
+            return 0;
+        }
+        
+        unordered_set<int>s;
+        
+        for(auto i:nums){
+            s.insert(i);
+        }
+        
+        int maxLen = INT_MIN;
+        
+        for(int i=0;i<n;++i){
+            int temp = nums[i]-1;
+            int count = 0;
+            /* We are checking that the number-1 exist on a set or not? */
+            if(s.find(temp) == s.end()){
+                temp = nums[i];
+                
+            /* If it doesnot exist then just run the loop till the element we find */
+                while(s.find(temp) != s.end()){
+                    count++;
+                    temp++;
+                }
+            }
+          /* Update the max length till now */
+            maxLen = max(maxLen,count);
+        }
+        
+        return maxLen;
+    }
+};

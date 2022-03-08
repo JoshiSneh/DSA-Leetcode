@@ -1,0 +1,54 @@
+/* Method-1 */
+T.C = O(N2)
+S.C = O(1)
+
+class Solution{
+    public:
+    int maxLen(vector<int>&A, int n)
+    {   
+       int maxLen = 0;
+      
+       for(int i=0;i<n;++i){
+         int sum = 0;
+         int count = 0;
+         for(int j=i;j<n;++j){
+             sum+=A[j];
+             count++;
+             if(sum == 0){
+                 maxLen = max(maxLen,count);
+             }
+         }
+       }
+       
+       return maxLen;  
+    }
+};
+
+/* Method-2 */
+T.C = O(NLogN)
+S.C = O(N)
+
+class Solution{
+    public:
+    int maxLen(vector<int>&A, int n)
+    {   
+        unordered_map<int,int>m;
+        
+        int maxLen = 0;
+        
+        int sum = 0;
+        m[0] = -1;
+        
+        for(int i=0;i<n;++i){
+           sum+=A[i];
+           if(m.find(sum) != m.end()){
+               int idx = m[sum];
+               maxLen = max(maxLen,i-idx);
+           }else{
+               m[sum] = i;   
+           }
+        }
+        
+        return maxLen;
+    }
+};

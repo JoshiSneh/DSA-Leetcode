@@ -1,0 +1,54 @@
+/* Method-1 */
+
+T.C = O(M+N) - TLE
+S.C = Recursive Stack Space
+
+
+class Solution {
+private:
+    void countPath(int row,int col,int i,int j,int &count){
+        if(i == row-1 && j == col-1){
+            count++;
+            return;
+        }
+        
+        /* Right */
+        if(j+1 < col){
+            countPath(row,col,i,j+1,count);
+        }
+        
+        /* Bottom */
+        if(i+1 < row){
+            countPath(row,col,i+1,j,count);
+        }
+    };
+public:
+    int uniquePaths(int m, int n) {
+        int count = 0;
+        
+        countPath(m,n,0,0,count);
+        return count;
+    }
+};
+
+/* Method-2 */
+
+T.C = O(M-1) or O(N-1)
+S.C = O(1)
+
+
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        long long res = 1;
+        
+        int N=m+n-2;
+        int r=m-1; /* int r=n-1*/
+        
+        for(int i=1;i<=r;++i){
+            res=res*(N-r+i)/i;
+        }
+
+        return (int)res;
+    }
+};

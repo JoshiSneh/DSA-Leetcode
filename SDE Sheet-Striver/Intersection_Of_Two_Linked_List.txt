@@ -1,0 +1,101 @@
+/* Method-1 */
+T.C = O(headA)+O(headB)
+S.C = O(headA)
+
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        unordered_set<ListNode*>s;
+        
+        while(headA != NULL){
+            s.insert(headA);
+            headA = headA->next;
+        }
+        
+        while(headB != NULL){
+            if(s.find(headB) != s.end()){
+                return headB;
+            }
+            headB = headB->next;
+        }
+        
+        return NULL;
+    }
+};
+
+/* Method-2 */
+T.C = O(M*N)
+S.C = O(1)
+
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        
+        ListNode* newHeadA = headA;
+        /* Main logic is here the two for loop pick the node from the second list and check that node in the first list */
+        while(headB != NULL){
+            ListNode* temp = headB;
+            headA = newHeadA;
+            while(headA != NULL){
+                if(temp == headA) return temp;
+                headA = headA->next;
+            }
+            headB = headB->next;
+        }
+        
+        return NULL;
+    }
+};
+
+/* Method-3 */
+T.C = O(M) +O(M-N)+O(N);
+S.C = O(1);
+
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        int n1=0;
+        int n2=0;
+        
+        ListNode *temp = headA;
+        ListNode* temp2 = headB;
+        
+     /* Number of Nodes Calculation Part */
+        while(temp != NULL){
+            n1++;
+            temp=temp->next;
+        }
+        
+        while(temp2 != NULL){
+            n2++;
+            temp2=temp2->next;
+        }
+        
+     /* Calculating the diff b/w two nodes length */
+        int diff = abs(n1-n2);
+        
+        temp = headA;
+        temp2 = headB;
+        
+    /* Moving the head pointer to the diff steps ahead */
+        if(n1>=n2){
+            while(diff--){
+                temp=temp->next;
+            }
+        }else{
+            while(diff--){
+                temp2=temp2->next;
+            }
+        }
+     /* Finaally moving both the pointer to one one steps */   
+        while(temp!=NULL && temp2!=NULL){
+            if(temp==temp2){
+                return temp;
+            }
+            temp=temp->next;
+            temp2=temp2->next;
+        }
+        
+        return NULL;
+    }
+};
