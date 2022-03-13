@@ -1,0 +1,82 @@
+/* Method-1 */
+T.C=O(N)
+S.C=O(1)
+
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        
+        ListNode* temp = head;
+        vector<int> v;
+        
+        while(temp != NULL){
+            v.push_back(temp->val);
+            temp=temp->next;
+        }
+        
+        int i=0;
+        int j=v.size()-1;
+        
+        while(i<=j){
+            if(v[i] != v[j]){
+                return false;
+            }
+            i++;
+            j--;
+        }
+        
+        return true;
+    }
+};
+
+
+/* Method-2 */
+T.C=O(N/2)+O(N/2)+O(N/2)
+S.C=O(1)
+
+class Solution {
+private:
+    ListNode* reverse(ListNode* head){
+        ListNode* pre = 0;
+        ListNode* cur = head;
+        ListNode* nextNode = head;
+        
+        while(nextNode != NULL){
+           nextNode=cur->next;
+           cur->next=pre;
+           pre=cur;
+           cur=nextNode;
+        }
+        
+        return pre; 
+    }
+public:
+    bool isPalindrome(ListNode* head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+        
+        /* Find the middle of linked list */
+        /* In case of odd we have to we have to travel till the last node */
+        /* In case of even we have to travel till the last second node */
+        
+        while(fast->next != NULL && fast->next->next != NULL){
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        
+        /* Finding the reverse of Linked List */
+        slow->next = reverse(slow->next);
+        
+        /* Move slow to the right half */
+        slow=slow->next;
+        
+        /* If the slow reaches the null pointer than we can say that we have got the palindromic linkedlist */
+        
+        while(slow != NULL){
+            if(head->val != slow->val){return false;}
+            slow=slow->next;
+            head=head->next;
+        }
+        return true;
+    }
+};

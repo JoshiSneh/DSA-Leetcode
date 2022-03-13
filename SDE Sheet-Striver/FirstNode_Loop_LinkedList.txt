@@ -1,0 +1,56 @@
+/* Method-1 */
+T.C = O(N)
+S.C = O(N)
+
+
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head){
+        unordered_set<ListNode*>s;
+        
+        while(head != NULL){
+            if(s.find(head) != s.end()){
+                return head;
+            }
+            s.insert(head);
+            head=head->next;
+        }
+        
+        return NULL;
+    }
+};
+
+
+
+
+/* Method-2 */
+T.C = O(N)
+S.C = O(1)
+
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        
+        if(head == NULL || head->next == NULL){
+            return NULL;
+        }
+        
+        ListNode* slow = head;
+        ListNode* fast = head;
+        
+        while(fast != NULL && fast->next != NULL){
+            slow=slow->next;
+            fast=fast->next->next;
+            if(slow == fast){
+                fast = head;
+                while(slow != fast){
+                    slow=slow->next;
+                    fast=fast->next;
+                }
+                return slow;
+            }
+        }
+        
+        return NULL;
+    }
+};

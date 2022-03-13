@@ -1,0 +1,12 @@
+/* Method-1 */
+T.C = O(1)
+S.C = O(1)
+
+class Solution {
+public:
+    void deleteNode(ListNode* node){
+        ListNode* temp = node->next;
+        node->val=temp->val;
+        node->next=node->next->next;
+    }
+};

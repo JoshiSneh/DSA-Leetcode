@@ -1,0 +1,64 @@
+/* Method-1 */
+T.C = O(K*N)
+S.C = O(1)
+
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        
+        if(head == NULL || head->next == NULL){
+            return head;
+        }
+        
+        ListNode* temp;
+        
+        while(k--){
+           temp=head;
+           while(temp->next->next != NULL){
+               temp=temp->next;
+           }
+           ListNode* dummy = temp->next;
+           temp->next = NULL;
+           dummy->next=head;
+           head=dummy;
+        }
+         
+        return head;
+    }
+};
+
+/* Method-2 */
+T.C = O(N)
+S.C = O(1)
+
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        
+        if(head == NULL || head->next == NULL || k==0){
+            return head;
+        }
+        
+        int len = 0;
+        ListNode* temp = head;
+        
+        while(temp->next != NULL){
+             len++;
+            temp=temp->next;
+        }
+        len++;
+        
+        temp->next=head;
+        
+        k=k%len;
+        k=len-k;        
+        while(k--){
+            temp=temp->next;
+        }
+        
+        head = temp->next;
+        temp->next = NULL;
+        
+        return head;
+    }
+};

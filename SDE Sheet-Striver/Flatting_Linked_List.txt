@@ -1,0 +1,42 @@
+/* Method-1 */
+T.C = O(total no. of nodes)
+S.C = O(1)
+
+Node *mergeTwoLinkedList(Node *l1, Node *l2){
+    if(l1 == NULL){
+        return l2;
+    }else if(l2 == NULL){return l1;}
+    
+    if(l1->data >= l2->data){
+        swap(l1,l2);
+    }
+    
+    Node *res=l1;
+    
+    while(l1 != NULL && l2 != NULL){
+        Node* temp=res;
+        while(l1 != NULL && l1->data <= l2->data){
+            temp=l1;
+            l1=l1->bottom;
+        }
+        temp->bottom=l2;
+        swap(l1,l2);
+    }
+    
+    return res;
+    
+}
+
+Node *flatten(Node *root){
+   
+   Node* temp1 = root;
+   Node* temp2 = root->next;
+   
+   while(temp2 != NULL){
+       temp1 = mergeTwoLinkedList(temp1,temp2);
+       temp2=temp2->next;
+   }
+   
+   return temp1;
+   
+}
