@@ -1,0 +1,26 @@
+/* Method-1 */
+T.C = O(N)
+S.C = O(N)
+
+vector<int> Solution::prevSmaller(vector<int> &arr) {
+    stack<int>s;
+    int n = arr.size();
+    
+    vector<int>res;
+
+    for(int i=0;i<n;++i){
+       while(!s.empty() && s.top()>=arr[i]){
+            s.pop();
+       }
+
+       if(!s.empty()){
+          res.push_back(s.top());
+       }else{
+           res.push_back(-1);
+       }
+
+       s.push(arr[i]);
+    }
+
+    return res;
+}

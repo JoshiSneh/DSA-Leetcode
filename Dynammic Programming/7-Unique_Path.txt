@@ -1,0 +1,106 @@
+/* Method-1 */
+
+T.C = O(2^N*M)
+S.C = O(N+M)
+
+/* Using the Recursion */
+
+class Solution {
+private:
+    int countPath(int i,int j){
+        if(i == 0 && j == 0){
+            return 1;
+        }
+        
+        if(i<0 || j<0){
+            return 0;
+        }
+        
+        int upDirection = countPath(i-1,j);
+        int leftDirection = countPath(i,j-1);
+        
+        return upDirection + leftDirection;
+    }
+public:
+    int uniquePaths(int m, int n) {
+        
+        return countPath(m-1,n-1);
+    }
+};
+
+/* Method-2 */
+
+T.C = O(N*M);
+S.C = O(N*M) + O(N+M);
+
+/* Using the Memoization */
+
+class Solution {
+private:
+    int countPath(int i,int j, vector<vector<int>>&dp){
+        if(i == 0 && j == 0){
+            return 1;
+        }
+        
+        if(i<0 || j<0){
+            return 0;
+        }
+        
+        if(dp[i][j] != -1){
+            return dp[i][j];
+        }
+        
+        int upDirection = countPath(i-1,j,dp);
+        int leftDirection = countPath(i,j-1,dp);
+        
+        return dp[i][j] = upDirection + leftDirection;
+    }
+public:
+    int uniquePaths(int m, int n) {
+        
+        vector<vector<int>>dp(m,vector<int>(n,-1));
+        
+        return countPath(m-1,n-1,dp);
+    }
+};
+
+
+/* Method-3 */
+
+T.C = O(N*M);
+S.C = O(N*M);
+
+/* Using the Tabulation */
+
+
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        vector<vector<long long>>dp(m,vector<long long>(n,0));
+        
+        dp[0][0] = 1;
+        
+        for(int i=0;i<m;++i){
+            for(int j=0;j<n;++j){
+                if(i == 0 && j == 0){
+                    dp[i][j] = 1;
+                }else{
+                    long long up = 0;
+                    long long left = 0;
+                    
+                    if(i>0){
+                         up = dp[i-1][j];
+                    }
+                    
+                    if(j>0){
+                        left = dp[i][j-1];
+                    }
+                    
+                    dp[i][j] = up+left;
+                }
+            }
+        }
+        
+        return dp[m-1][n-1];
+    }
+};

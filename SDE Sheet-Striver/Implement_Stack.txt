@@ -1,0 +1,76 @@
+/* Method-1 */
+T.C = O(1);
+S.C = O(N)
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int st[5];
+int top=-1;
+int sz = 5;
+
+void push(int num) {
+    if(top == sz-1){
+       cout<<"Stack is Full"<<endl;
+    }else{
+        st[++top]=num;
+    }
+}
+
+void pop(){
+    if(top == -1){
+       cout<<"Stack is Empty"<<endl;
+    }else{
+       top--;
+    }
+}
+
+void topValue(){
+     if(top == -1){
+        cout<<"Stack is Empty"<<endl;
+     }else{
+         cout<<st[top]<<endl;
+     }
+}
+
+void display(){
+     for(int i=top;i>=0;--i){
+         cout<<st[i]<<" ";
+     }
+     cout<<endl;
+}
+
+void isEmpty(){
+     if(top == -1){
+         cout<<"Stack is Empty"<<endl;
+     }else{
+         cout<<"Stack is Not Empty"<<endl;
+     }
+}
+
+void size(){
+     cout<<top+1<<endl;
+} 
+
+
+int main(){
+   push(1);
+   push(2);
+   push(2);
+   pop();
+   display();
+   topValue();
+   size();
+   push(4);
+   push(5);
+   pop();
+   size();
+   display();
+   push(4);
+   push(4);
+   push(4);
+   push(5);
+   push(5);
+   push(5);
+}

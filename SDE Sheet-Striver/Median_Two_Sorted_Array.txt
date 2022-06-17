@@ -1,0 +1,52 @@
+/* Method-1 */
+
+T.C = O(N1+N2);
+S.C = O(N1+N2);
+
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int n = nums1.size();
+        int m = nums2.size();
+        
+        int i=0;
+        int j=0;
+        
+        vector<int>res;
+        while(i<n && j<m){
+            if(nums1[i]<=nums2[j]){
+                res.push_back(nums1[i]);
+                i++;
+            }else{
+                res.push_back(nums2[j]);
+                j++;
+            }
+        }
+        
+        while(i<n){
+            res.push_back(nums1[i]);
+            i++;
+        }
+        
+        while(j<m){
+            res.push_back(nums2[j]);
+            j++;
+        }
+        
+        int sz = res.size();
+        int mid;
+
+        if(sz&1){
+            mid = sz/2.0;
+            return res[mid];
+        }else{
+            mid = sz/2;
+            return (res[mid-1]+res[mid])/2.0;
+        }
+    }
+};
+
+
+/* Method-2 */
+T.C = O(LOG(MIN(N,M)))
+SC. = O(1);

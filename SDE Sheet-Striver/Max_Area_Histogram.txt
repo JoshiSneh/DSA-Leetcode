@@ -1,0 +1,95 @@
+/* Method-1 */
+T.C = O(N2);
+S.C = O(1);
+
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        int n = heights.size();
+        
+        int maxArea = INT_MIN;
+        
+        for(int i=0;i<n;++i){
+           int leftCount = 0;
+           int rightCount = 0;
+            
+            /* LeftCount */
+           for(int j=i-1;j>=0;--j){
+               if(heights[j] >= heights[i]){
+                   leftCount++;
+               }else{
+                   break;
+               }
+           }
+            
+            /* RightCount */
+           for(int j=i+1;j<n;++j){
+               if(heights[j]>=heights[i]){
+                   rightCount++;
+               }else{
+                   break;
+               }
+           }
+
+           maxArea = max(maxArea,(leftCount+rightCount+1)*heights[i]);
+           // cout<<i<<" "<<leftCount<<" "<<rightCount<<" "<<maxArea<<endl;
+        }
+        
+        return maxArea;
+    }
+};
+
+/* Method-2 */
+T.C = O(N)+O(N)+O(N)+O(N)+O(N) ~ O(N)
+S.C = O(4N);
+
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        int n = heights.size();
+        int leftSmall[n];
+        int rightSmall[n];
+    
+        
+        stack<int>leftSt;
+        stack<int>rightSt;
+       
+        /* Finding the Next Smaller to Left */
+        
+        for(int i=0;i<n;++i){
+            while(!leftSt.empty() && heights[leftSt.top()]>=heights[i]){
+                leftSt.pop();
+            }
+            if(!leftSt.empty()){
+                leftSmall[i]=leftSt.top()+1;
+            }else{
+                leftSmall[i]=0;
+            }
+            
+            leftSt.push(i);
+        }
+        
+        /* Finding the Next Smaller to Right */
+        
+        for(int i=n-1;i>=0;--i){
+            while(!rightSt.empty() && heights[rightSt.top()]>=heights[i]){
+                rightSt.pop();
+            }
+            if(!rightSt.empty()){
+                rightSmall[i]=rightSt.top()-1;
+            }else{
+                rightSmall[i]=n-1;
+            }
+            
+            rightSt.push(i);
+        }
+        
+        int maxArea = INT_MIN;
+        
+        for(int i=0;i<n;++i){
+            maxArea = max(maxArea,(rightSmall[i]-leftSmall[i]+1)*heights[i]);
+        }
+        
+        return maxArea;
+    }
+};

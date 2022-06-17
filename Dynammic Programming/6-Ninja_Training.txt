@@ -1,0 +1,90 @@
+/* Method-1 */
+
+T.C = O(N*4)*3;
+S.C = O(N)+O(N*4);
+
+Using the Recursion
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int func(int day, int last, vector<vector<int>>&points){
+    if(day  == 0){
+        int maxTask = INT_MIN;
+        
+        for(int task = 0;task<3;++task){
+           if(task != last){
+               maxTask = max(maxTask,points[0][task]);
+           }    
+        }
+        
+        return maxTask;
+    }
+
+    int maxTask = INT_MIN;
+    
+    int point;
+    for(int task = 0;task<3;++task){
+        if(task != last){
+            point = points[day][task] + func(day-1,task,points);
+            maxTask = max(maxTask,point);
+        }
+    }
+    
+    return maxTask;
+}
+
+
+int ninjaTraining(int n, vector<vector<int>> &points){
+    // Write your code here.
+
+    return func(n-1,3,points);
+}
+
+
+/* Method-2 */
+
+Using the Memoization
+
+T.C = O(N*4)*3;
+S.C = O(N)+O(N*4);
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int func(int day, int last, vector<vector<int>>&points, vector<vector<int>>&dp){
+    if(day  == 0){
+        int maxTask = INT_MIN;
+        
+        for(int task = 0;task<3;++task){
+           if(task != last){
+               maxTask = max(maxTask,points[0][task]);
+           }    
+        }
+        
+        return maxTask;
+    }
+    
+    if(dp[day][last] != -1){
+        return dp[day][last];
+    }
+
+    int maxTask = INT_MIN;
+    
+    int point;
+    for(int task = 0;task<3;++task){
+        if(task != last){
+            point = points[day][task] + func(day-1,task,points,dp);
+            maxTask = max(maxTask,point);
+        }
+    }
+    
+    return dp[day][last] = maxTask;
+}
+
+
+int ninjaTraining(int n, vector<vector<int>> &points){
+    // Write your code here.
+    vector<vector<int>>dp(n+1,vector<int>(4,-1));
+    return func(n-1,3,points,dp);
+}

@@ -20,3 +20,29 @@ public:
         return res;
     }
 };
+
+/* Method-2 */
+
+class Solution {
+private:
+    void generate(vector<vector<int>>&res, int numRows,int &i){
+        if(i == numRows){
+            return;
+        }
+        vector<int>temp(i+1,1);
+        for(int j=1;j<i;++j){temp[j]=res[i-1][j-1]+res[i-1][j];}
+        res[i]=temp;
+        i++;
+        generate(res,numRows,i);
+    }
+public:
+    vector<vector<int>> generate(int numRows){
+        vector<vector<int>>res(numRows);
+        if(numRows == 0){
+             return res;
+        }
+        int i=0;
+        generate(res,numRows,i);
+        return res;
+    }
+};

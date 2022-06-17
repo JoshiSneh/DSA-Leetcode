@@ -1,0 +1,68 @@
+/* Method-1 */
+T.C = O(N2)
+S.C = O(1)
+
+
+lass Solution {
+public:
+    int trap(vector<int>& height) {
+        int n = height.size();
+        
+        int waterCount = 0;
+        
+        for(int i=0;i<n;++i){
+            int curHeight = height[i];
+            int leftMax = INT_MIN;
+            int rightMax = INT_MIN;
+            
+            /* Calculating the maxHeight in left */
+            for(int j=i;j>=0;--j){
+                leftMax = max(leftMax,height[j]);
+            }
+            
+            /* Calculating the maxHeight in right */
+            for(int j=i;j<n;++j){
+                rightMax = max(rightMax,height[j]);
+            }
+            
+            waterCount+=min(leftMax,rightMax)-height[i];
+        }
+        
+        return waterCount;
+    }
+};
+
+
+/* Method-2 */
+T.C = O(N) + O(N)
+S.C = O(N)
+
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        
+        int n = height.size();
+        
+        /* Prefix array will store the maxHeight from left to right till that index */
+        int prefix[100001];
+        
+        /* Suffix array will store the maxHeight from right to left till that index */
+        int suffix[100001];
+        
+        prefix[0]=height[0];
+        suffix[n-1]=height[n-1];
+        
+        for(int i=1;i<n;++i){
+           prefix[i]= max(height[i],prefix[i-1]);
+           suffix[n-i-1]= max(height[n-i-1],suffix[n-i]);
+        }
+        
+        int countWater = 0;
+        
+        for(int i=0;i<n;++i){
+           countWater+= min(prefix[i],suffix[i])-height[i];    
+        }
+        
+        return countWater;
+    }
+};

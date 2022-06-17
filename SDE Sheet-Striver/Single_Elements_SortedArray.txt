@@ -1,0 +1,55 @@
+/* Method-1 */
+T.C = O(N)
+S.C = O(N)
+
+class Solution {
+public:
+    int singleNonDuplicate(vector<int>& nums) {
+        unordered_map<int,int>m;
+        for(auto i:nums){
+           m[i]++;      
+        }
+        
+        for(auto i:m){
+            if(i.second == 1){
+                return i.first;
+            }
+        }
+        
+        return -1;
+    }
+};
+
+/* Method-2 */
+T.C = O(logn)
+S.C = O(1)
+
+class Solution {
+public:
+    int singleNonDuplicate(vector<int>& nums) {
+        int n = nums.size();
+        int low = 0;
+        int high = n-2;
+        
+        /* We will look for the left half */
+        while(low <= high){
+          int mid = (high+low)/2;
+            
+      /* 
+        Below Condition means it will check:- 
+        if mid == odd then we are at the 2nd Instance and we are checking for the 1st Instance if they are equal then we are at the left half
+        so we have to go to the right portion i.e low = mid+1;
+        
+        and similarly for the mid == even
+      
+      */
+          if(nums[mid] == nums[mid^1]){
+              low = mid+1;
+          }else{
+              high = mid-1;
+          } 
+        }
+        
+        return nums[low];
+    }
+};

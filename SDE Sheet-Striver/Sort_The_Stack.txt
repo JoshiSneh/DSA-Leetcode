@@ -1,0 +1,26 @@
+/* Method-1 */
+T.C = O(N2)
+S.C = O(N)
+
+
+void sortStack(stack<int> &s)
+{
+	stack<int>st;
+	
+	while(!s.empty()){
+		int temp = s.top();
+		s.pop();
+		
+		while(!st.empty() && st.top()>=temp){
+			s.push(st.top());
+			st.pop();
+		}
+		
+		st.push(temp);
+	}
+	while(!st.empty()){
+		s.push(st.top());
+		st.pop();
+	}
+	
+}

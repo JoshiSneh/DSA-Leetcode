@@ -1,0 +1,104 @@
+/* Method-1 */
+
+T.C = O(2^N)
+S.C = O(N)
+
+Using the Recursion
+
+class Solution {
+private:
+    int calSum(vector<int>&nums,int i){
+        if(i == 0){
+            return nums[i];
+        }
+        
+        if(i < 0){
+            return 0;
+        }
+        
+        int pickEle = nums[i]+calSum(nums,i-2);
+        int nonPickEle = 0+calSum(nums,i-1);
+        
+        return dp[i] = max(pickEle, nonPickEle);
+    };
+    
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        
+        return calSum(nums,n-1);
+    }
+};
+
+
+/*  Method-2 */
+
+T.C = O(N)
+S.C = O(N)+O(N)
+
+Using the Memoization
+
+
+class Solution {
+private:
+    int calSum(vector<int>&nums,int i,vector<int>&dp){
+        if(i == 0){
+            return nums[i];
+        }
+        
+        if(i < 0){
+            return 0;
+        }
+        
+        if(dp[i] != -1){
+            return dp[i];
+            
+        }
+        
+        int pickEle = nums[i]+calSum(nums,i-2,dp);
+        int nonPickEle = 0+calSum(nums,i-1,dp);
+        
+        return dp[i] = max(pickEle, nonPickEle);
+    };
+    
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        
+        vector<int>dp(n+1,-1);
+        
+        return calSum(nums,n-1,dp);
+    }
+};
+
+
+/* Method - 3 */
+
+Using the Space Optimization
+
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        
+        /* Using the Space Optimization over dp*/
+        
+        int prev = nums[0];
+        int prev2 = 0;
+        
+        int cur;
+        
+        for(int i=1;i<n;++i){
+            int pick = nums[i]+prev2;
+            int notPick = 0+prev;
+            
+            cur = max(pick,notPick);
+            
+            prev2=prev;
+            prev=cur;
+            
+        }
+        
+        return prev;
+    }
+};

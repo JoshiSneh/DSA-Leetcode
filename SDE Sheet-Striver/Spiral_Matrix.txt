@@ -1,0 +1,50 @@
+/* Method-1 */
+T.C = O(M*N);
+S.C = O(1);
+
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        
+        int top = 0; /* This is for the direction from the left to right of the first row */
+        int bottom = n-1; /* This is for the direction from the Right to left of the last row */
+        int left = 0; /* This is for the direction from the bottom to top of the first column */
+        int right = m-1; /* This is for the direction from the top to bottom of the last column */
+        
+        int direction = 1;
+        
+        vector<int>res;
+        
+        while(left<=right && top<=bottom ){
+            if(direction == 1){ /* Left to Right */
+               for(int i=left;i<=right;++i){
+                  res.push_back(matrix[top][i]);
+               }      
+               direction = 2;
+               top++;  
+            }else if(direction == 2){ /* Top to Bottom */
+                for(int i=top;i<=bottom;++i){
+                    res.push_back(matrix[i][right]);
+                }
+                direction = 3;
+                right--;
+            }else if(direction == 3){ /* Right to Left */
+                for(int i=right;i>=left;--i){
+                    res.push_back(matrix[bottom][i]);
+                }
+                direction = 4;
+                bottom--;
+            }else if(direction == 4){ /* Left to Right */
+                for(int i=bottom;i>=top;--i){
+                    res.push_back(matrix[i][left]);
+                }
+                direction=1;
+                left++;
+            }
+        }
+        
+        return res;
+    }
+};

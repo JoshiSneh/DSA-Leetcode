@@ -1,0 +1,49 @@
+/* Method-1 */
+T.C = O(N/K)*K
+S.C = O(1)
+
+class Solution {
+public:
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        
+        if(k == 1 || head == NULL){
+            return head;
+        }
+        
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
+        
+        ListNode* pre=dummy;
+        ListNode* cur=dummy;
+        ListNode* nex=dummy;
+        ListNode* temp = head;
+        
+        int count = 0;
+        
+        while(temp != NULL){
+            count++;
+            temp=temp->next;
+        }
+        
+        while(k<=count){
+        /* Cur should always point to the first node of the every group 3 linked list */
+            cur=pre->next;
+            
+        /* Nex should always point to the first node of the every group 3 linked list */
+            nex=cur->next;
+            
+            for(int i=1;i<k;++i){
+               cur->next=nex->next;
+               nex->next=pre->next;
+               pre->next=nex;
+               nex=cur->next;
+            }
+            
+            count-=k;
+        /* Pre should always point to the last node of the every group 3 linked list in the form of reversed list */
+            pre=cur;
+        }
+        
+        return dummy->next;
+    }
+};

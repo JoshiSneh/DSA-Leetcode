@@ -1,0 +1,58 @@
+/* Method-1 */
+T.C = O(N)
+S.C = O(1)
+
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int n = nums.size();
+        
+        for(int i=0;i<n;++i){
+          if(nums[i] == target){
+              return i;
+          }    
+        }
+        
+        return -1;
+    }
+};
+
+/* Method-2 */
+T.C = O(logn)
+S.C = O(1)
+
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int n = nums.size();
+        
+        int low = 0;
+        int high = n-1;
+        
+        while(low<=high){
+            int mid = (low+high)/2;
+            
+            if(nums[mid] == target){
+                return mid;
+            }else if(nums[low] <= nums[mid]){ /* Left part is Sorted or not */
+                
+              /* Is my target lies on the left half or not */
+                if(nums[low]<=target && target<=nums[mid]){
+                    high=mid-1;
+                }else{
+                    low=mid+1;
+                }
+            }else{ /* Right part */
+                
+              /* Is my target lies on the right half or not */
+                if(nums[mid]<=target && target<=nums[high]){
+                   low=mid+1;
+                }else{
+                   high=mid-1;
+                }
+            }
+        }
+        
+        return -1;
+    }
+};
