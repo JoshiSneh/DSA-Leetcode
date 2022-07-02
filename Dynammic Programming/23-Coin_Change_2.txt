@@ -1,0 +1,82 @@
+/* Method-1 */
+
+T.C = O(N*Amount);
+S.C = O(N*Amount) + O(N);
+
+/* Using the Memoization */
+
+class Solution {   
+private:
+int countMin(int i,vector<int>&coins,int target,vector<vector<int>>&dp){
+        if(target == 0){
+            return 1;        
+        }
+    
+        if(i == 0){
+            if(target%coins[0] == 0){
+               return 1;
+            }
+            return 0;
+        }
+        
+        if(dp[i][target] != -1){
+            return dp[i][target];
+        }
+    
+        int notPick = countMin(i-1,coins,target,dp);
+        int pick = 0;
+        
+        if(target >= coins[i]){
+            pick = countMin(i,coins,target-coins[i],dp);
+        }
+        
+        return dp[i][target]=notPick+pick;
+    };
+    
+public:
+    int change(int amount, vector<int>& coins) {
+        int n = coins.size();
+        
+        vector<vector<int>>dp(n+1,vector<int>(amount+1,-1));
+        int minCoins = countMin(n-1,coins,amount,dp);
+        
+        return minCoins;
+    }
+};
+
+/* Method-2 */
+
+T.C = O(N*Amount);
+S.C = O(N*Amount);
+
+/* Using the Tabulation */
+
+class Solution {   
+public:
+    int change(int amount, vector<int>& coins) {
+        int n = coins.size();
+        
+        vector<vector<int>>dp(n+1,vector<int>(amount+1,0));
+        
+        for(int T=0;T<=amount;++T){
+            if(T%coins[0] == 0){
+                dp[0][T] = 1;
+            }
+        }
+        
+        for(int i=1;i<n;++i){
+            for(int T=0;T<=amount;++T){
+                int notPick = dp[i-1][T];
+                int pick = 0;
+
+                if(T >= coins[i]){
+                    pick = dp[i][T-coins[i]];
+                }
+
+                dp[i][T]=notPick+pick;
+            }
+        }
+        
+        return dp[n-1][amount];
+    }
+};

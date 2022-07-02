@@ -1,0 +1,75 @@
+/* Method-1 */
+
+T.C = O(2^N);
+S.C = O(N);
+
+/* Using the Recursion */
+
+int countFindWays(vector<int>&nums,int i,int target){
+    if(target == 0){
+        return 1;
+    }
+    
+    if(i == 0){
+        if(nums[0] == target){
+            return 1;
+        }
+        
+        return 0;
+    }
+    
+    int notPick = countFindWays(nums,i-1,target);
+    int pick = 0;
+    
+    if(target >= nums[i]){
+        pick = countFindWays(nums,i-1,target-nums[i]);
+    }
+    
+    return pick+notPick;
+}
+
+int findWays(vector<int> &num, int tar){
+    int n = num.size();
+    
+    return countFindWays(num,n-1,tar);
+}
+
+/* Method-2 */
+
+T.C = O(N*target);
+S.C = O(N) + O(N*target);
+
+/* Using the Tabulation*/
+
+
+int countFindWays(vector<int>&nums,int i,int target,vector<vector<int>>&dp){
+    if(target == 0){
+        return 1;
+    }
+    
+    if(i == 0){
+        if(nums[0] == target){
+            return 1;
+        }
+        
+        return 0;
+    }
+    
+    if(dp[i][target] != -1){ return dp[i][target];}
+    
+    int notPick = countFindWays(nums,i-1,target,dp);
+    int pick = 0;
+    
+    if(target >= nums[i]){
+        pick = countFindWays(nums,i-1,target-nums[i],dp);
+    }
+    
+    return dp[i][target]=pick+notPick;
+}
+
+int findWays(vector<int> &num, int tar){
+    int n = num.size();
+    
+    vector<vector<int>>dp(n+1,vector<int>(tar+1,-1));
+    return countFindWays(num,n-1,tar,dp);
+}

@@ -1,0 +1,128 @@
+/* Method-1 */
+
+T.C = O(2^N);
+S.C = O(N);
+
+/* Using the Recursion */
+
+class Solution {
+private:
+    int countMin(int i,vector<int>&coins,int target){
+        if(i == 0){
+            if(target%coins[0] == 0){
+                return target/coins[0];
+            }else{
+                return 1e9;
+            }
+        }
+        
+        int notPick = 0+countMin(i-1,coins,target);
+        int pick = INT_MAX;
+        
+        if(target >= coins[i]){
+            pick = 1+countMin(i,coins,target-coins[i]);
+        }
+        
+        return min(pick,notPick);
+    };
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        int n = coins.size();
+        
+        
+        int minCoins = countMin(n-1,coins,amount);
+        
+        if(minCoins == 1e9){
+            return -1;
+        }
+        
+        return minCoins;
+    }
+};
+
+
+/* Method-2 */
+
+T.C = O(N*Amount);
+S.C = O(N*Amount) + O(N);
+
+/* Using the Memoization */
+
+class Solution {
+private:
+    int countMin(int i,vector<int>&coins,int target){
+        if(i == 0){
+            if(target%coins[0] == 0){
+                return target/coins[0];
+            }else{
+                return 1e9;
+            }
+        }
+        
+        int notPick = 0+countMin(i-1,coins,target);
+        int pick = INT_MAX;
+        
+        if(target >= coins[i]){
+            pick = 1+countMin(i,coins,target-coins[i]);
+        }
+        
+        return min(pick,notPick);
+    };
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        int n = coins.size();
+        
+        
+        int minCoins = countMin(n-1,coins,amount);
+        
+        if(minCoins == 1e9){
+            return -1;
+        }
+        
+        return minCoins;
+    }
+};
+
+
+/* Method-3 */
+
+T.C = O(N*Amount);
+S.C = O(N*Amount);
+
+/* Using the Tabulation */
+
+int coinChange(vector<int>& coins, int amount) {
+        int n = coins.size();
+    
+        vector<vector<int>>dp(n+1,vector<int>(amount+1,0));
+        
+        for(int target = 0;target<=amount;++target){
+            if(target%coins[0] == 0){
+                dp[0][target]=target/coins[0];
+            }else{
+                dp[0][target] = 1e9;
+            }
+        }
+        
+        for(int i=1;i<n;++i){
+            for(int target=0;target<=amount;++target){
+                int notPick = 0+dp[i-1][target];
+                int pick = INT_MAX;
+
+                if(target >= coins[i]){
+                    pick = 1+dp[i][target-coins[i]];
+                }
+
+                dp[i][target]=min(pick,notPick);
+            }
+        }
+        
+        cout<<dp[n-1][amount];
+        if(dp[n-1][amount] == 1e9){
+            return -1;
+        }
+        
+        return dp[n-1][amount];
+        
+    }
+};

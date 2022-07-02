@@ -1,0 +1,88 @@
+/* Method-1 */
+
+T.C = O(2^N);
+S.C = O(Weight);
+
+/* Using the Recursion */
+
+int func(int ind, int W,vector<int>&profit,vector<int>&weight){
+    if(ind == 0){
+            return (W/weight[0])*profit[0];
+    }
+    
+    int notPick = 0+func(ind-1,W,profit,weight);
+    int pick = INT_MIN;
+    
+    if(W >= weight[ind]){
+        pick = profit[ind]+func(ind,W-weight[ind],profit,weight);
+    }
+    
+    return max(notPick,pick);
+};
+
+int unboundedKnapsack(int n, int w, vector<int> &profit, vector<int> &weight)
+{
+    return func(n-1,w,profit,weight);
+}
+
+
+/* Method-2 */
+
+T.C = O(N*Weight);
+S.C = O(Weight)+O(N*Weight);
+
+/* Using the Memoization */
+
+int func(int ind, int W,vector<int>&profit,vector<int>&weight,vector<vector<int>>&dp){
+    if(ind == 0){
+            return (W/weight[0])*profit[0];
+    }
+    if(dp[ind][W] != -1){
+        return dp[ind][W];
+    }
+    
+    int notPick = 0+func(ind-1,W,profit,weight,dp);
+    int pick = INT_MIN;
+    
+    if(W >= weight[ind]){
+        pick = profit[ind]+func(ind,W-weight[ind],profit,weight,dp);
+    }
+    
+    return dp[ind][W]=max(notPick,pick);
+};
+
+int unboundedKnapsack(int n, int w, vector<int> &profit, vector<int> &weight)
+{  
+    vector<vector<int>>dp(n+1,vector<int>(w+1,-1));
+    return func(n-1,w,profit,weight,dp);
+}
+
+/* Method-3 */
+
+T.C = O(N*Weight);
+S.C = O(N*Weight);
+
+/* Using the Tabulation */
+
+int unboundedKnapsack(int n, int w, vector<int> &profit, vector<int> &weight)
+{  
+    vector<vector<int>>dp(n+1,vector<int>(w+1,0));
+    for(int W=0;W<=w;++W){
+        dp[0][W] = (W/weight[0])*profit[0];
+    }
+    
+    for(int i=1;i<n;++i){
+        for(int W=0;W<=w;++W){
+                int notPick = 0+dp[i-1][W];
+                int pick = INT_MIN;
+
+                if(W >= weight[i]){
+                    pick = profit[i]+dp[i][W-weight[i]];
+                }
+
+                dp[i][W]=max(notPick,pick);
+        }
+    }
+    return dp[n-1][w];
+}
+

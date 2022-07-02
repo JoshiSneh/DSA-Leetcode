@@ -1,0 +1,95 @@
+/* Method-1 */
+
+T.C = O(2^N);
+S.C = O(N);
+
+/* Using Recusrion */
+
+int func(int i, vector<int>&price, int N){
+    if(i == 0){
+        return N*price[0];
+    }
+    
+    int notPick = 0+func(i-1,price,N);
+    int pick = INT_MIN;
+    
+    if(N >= i+1){
+        pick = price[i]+func(i,price,N-(i+1));
+    }
+    
+    return max(notPick,pick);
+}
+
+int cutRod(vector<int> &price, int N)
+{   
+    int n = price.size();
+    
+	return func(n-1,price,N);
+}
+
+/* Method-2 */
+
+T.C = O(N*RodLength);
+S.C = O(N)+O(N*RodLength);
+
+/* Using Memoization */
+
+int func(int i, vector<int>&price, int N, vector<vector<int>>&dp){
+    if(i == 0){
+        return N*price[0];
+    }
+    
+    if(dp[i][N] != -1){
+        return dp[i][N];
+    }
+    
+    int notPick = 0+func(i-1,price,N,dp);
+    int pick = INT_MIN;
+    
+    if(N >= i+1){
+        pick = price[i]+func(i,price,N-(i+1),dp);
+    }
+    
+    return dp[i][N] = max(notPick,pick);
+}
+
+int cutRod(vector<int> &price, int N)
+{   
+    int n = price.size();
+    
+    vector<vector<int>>dp(n+1,vector<int>(N+1,-1));
+	return func(n-1,price,N,dp);
+}
+
+
+/* Method-3 */
+
+T.C = O(N*RodLength);
+S.C = O(N*RodLength);
+
+/* Using Tabulation */
+
+int cutRod(vector<int> &price, int N)
+{   
+    int n = price.size();
+    
+    vector<vector<int>>dp(n+1,vector<int>(N+1,0));
+    
+    for(int len=0;len<=N;++len){
+       dp[0][len]=len*price[0];    
+    }
+    
+    for(int i=1;i<n;++i){
+        for(int len = 0;len<=N;++len){
+                int notPick = 0+dp[i-1][len];
+                int pick = INT_MIN;
+
+                if(len >= i+1){
+                    pick = price[i]+dp[i][len-(i+1)];
+                }
+
+                dp[i][len] = max(notPick,pick);
+        }
+    }
+	return dp[n-1][N];
+}

@@ -1,0 +1,112 @@
+/* Method-1 */
+
+T.C = O(2^N);
+S.C = O(N);
+
+/* Using the Recursion */
+
+bool findSubset(int i,int target, vector<int>&arr){
+    if(target == 0){
+        return true;
+    }
+    
+    if(i == 0){
+        if(arr[0] == target){
+            return true;
+        }
+        return false;
+    }
+    
+    bool notPick = findSubset(i-1,target,arr);
+    bool pick = false;
+    
+    if(target >= arr[i]){
+        pick = findSubset(i-1,target-arr[i],arr);
+    }
+    
+    return notPick || pick;
+}
+
+bool subsetSumToK(int n, int k, vector<int> &arr) {
+    // Write your code here.
+    
+    return findSubset(n-1,k,arr);
+}
+
+
+/* Method-2 */
+
+T.C = O(N*target);
+S.C = O(N) + O(N*target);
+
+/* Using the Tabulation */
+
+
+
+bool findSubset(int i,int target, vector<int>&arr,vector<vector<int>>&dp){
+    if(target == 0){
+        return true;
+    }
+    
+    if(i == 0){
+        if(arr[0] == target){
+            return true;
+        }
+        return false;
+    }
+    
+    if(dp[i][target] != -1){
+        return dp[i][target];
+    }
+    
+    bool notPick = findSubset(i-1,target,arr,dp);
+    bool pick = false;
+    
+    if(target >= arr[i]){
+        pick = findSubset(i-1,target-arr[i],arr,dp);
+    }
+    
+    return dp[i][target] = notPick || pick;
+}
+
+bool subsetSumToK(int n, int k, vector<int> &arr) {
+    // Write your code here.
+    vector<vector<int>>dp(n+1,vector<int>(k+1,-1));
+    
+    return findSubset(n-1,k,arr,dp);
+}
+
+/* Method-3 */
+
+T.C = O(N*Target);
+S.C = O(N*Target);
+
+/* Using the Tabulation */
+
+bool subsetSumToK(int n, int k, vector<int> &arr) {
+
+    vector<vector<bool>>dp(n+1,vector<bool>(k+1,0));
+    
+    /* Target 0 h pr index change ho rha h */
+    
+    for(int i=0;i<n;++i){
+        dp[i][0] = true;
+    }
+    
+    dp[0][arr[0]] = true;
+    
+    for(int i=1;i<n;++i){
+        for(int target=1;target<=k;target++){
+                bool notPick = dp[i-1][target];
+                bool pick = false;
+
+                if(target >= arr[i]){
+                    pick = dp[i-1][target-arr[i]];
+                }
+
+                dp[i][target] = notPick || pick;
+        } 
+    }
+    
+    return dp[n-1][k];
+}

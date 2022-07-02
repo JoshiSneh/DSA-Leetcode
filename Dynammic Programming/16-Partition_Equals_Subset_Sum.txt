@@ -1,0 +1,100 @@
+/* Method-1 */
+
+T.C = O(2^N);
+S.C = O(N);
+
+/* Using Recursion */
+
+class Solution {
+private:
+    bool checkPartition(vector<int>&nums, int i, int target){
+        if(target == 0){
+            return true;
+        }  
+        
+        if(i == 0){
+            if(nums[i] == target){
+                return true;
+            }
+            return false;
+        }
+        
+        int notPick = checkPartition(nums,i-1,target);
+        int pick = false;
+        
+        if(target >= nums[i]){
+            pick = checkPartition(nums,i-1,target-nums[i]);
+        }
+        
+        return notPick || pick;
+    };
+public:
+    bool canPartition(vector<int>& nums) {
+        int sumArray = accumulate(nums.begin(),nums.end(),0);
+        
+        if(sumArray&1){ /* Odd Number we cannot divide this in to the two equal subset */
+            return false;
+        }
+        
+
+        int n = nums.size();
+        int k = sumArray/2; /* Target */
+
+        return checkPartition(nums,n-1,k);
+        
+    }
+};
+
+/* Method-2 */
+
+T.C = O(N*target);
+S.C = O(N*target);
+
+/* Using Memoization */
+
+
+class Solution {
+private:
+    bool checkPartition(vector<int>&nums, int i, int target,vector<vector<int>>&dp){
+        if(target == 0){
+            return true;
+        }  
+        
+        if(i == 0){
+            if(nums[i] == target){
+                return true;
+            }
+            return false;
+        }
+        
+        if(dp[i][target] != -1){
+            return dp[i][target];
+        }
+        
+        int notPick = checkPartition(nums,i-1,target,dp);
+        int pick = false;
+        
+        if(target >= nums[i]){
+            pick = checkPartition(nums,i-1,target-nums[i],dp);
+        }
+        
+        return dp[i][target] = notPick || pick;
+    };
+    
+public:
+    bool canPartition(vector<int>& nums) {
+        int sumArray = accumulate(nums.begin(),nums.end(),0);
+        
+        if(sumArray&1){ /* Odd Number we cannot divide this in to the two equal subset */
+            return false;
+        }
+        
+
+        int n = nums.size();
+        int k = sumArray/2; /* Target */
+        
+        vector<vector<int>>dp(n+1,vector<int>(k+1,-1));
+        return checkPartition(nums,n-1,k,dp);
+        
+    }
+};

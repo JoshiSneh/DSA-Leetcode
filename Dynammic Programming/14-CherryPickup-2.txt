@@ -1,0 +1,169 @@
+/* Method-1 */
+
+T.C = O(3^N*3^N);
+S.C = O(N);
+
+/* Using the Recursion */
+
+class Solution {
+private:
+    int maxCherries(vector<vector<int>>&grid,int i, int j1, int j2,int m){
+        if(j1 < 0 || j2 < 0 || j1 >= m || j2 >= m){
+            return -10;
+        }
+        
+        if(i == m-1){
+            if(j1 == j2){
+                return grid[i][j1];
+            }else{
+                return grid[i][j1]+grid[i][j2];
+            }
+        }
+        
+        int maxCherry = -1e8;
+        
+        for(int k=-1;k<=+1;++k){
+            cout<<"Sneh";
+            for(int f=-1;f<=+1;++f){
+                int value = 0;
+                if(j1 == j2){
+                    value= grid[i][j1];
+                }else{
+                    value=grid[i][j1]+grid[i][j2];
+                }
+                value+=maxCherries(grid,i+1,j1+k,j2+f,m,dp);
+                
+                maxCherry = max(maxCherry, value);
+            }
+        }
+        
+        return maxCherry;
+        
+    };
+public:
+    int cherryPickup(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        
+        return maxCherries(grid,0,0,n-1,m,dp);
+    }
+};
+
+
+/* Method-2 */
+
+T.C = O(N*M*M);
+S.C = O(N)+O(N*M*M);
+
+/* Using the Memoization */
+        
+class Solution {
+private: 
+    int maxCherries(vector<vector<int>>&grid,int i, int j1, int j2,int m,vector<vector<vector<int>>>&dp){
+        if(j1 < 0 || j2 < 0 || j1 >= m || j2 >= m){
+            return -10;
+        }
+         
+        if(dp[i][j1][j2] != -1){
+            return dp[i][j1][j2];
+        }
+         
+        if(i == m-1){
+            if(j1 == j2){
+                return grid[i][j1];
+            }else{
+                return grid[i][j1]+grid[i][j2];
+            }
+        }
+         
+        int maxCherry = -1e8;
+         
+        for(int k=-1;k<=+1;++k){
+            cout<<"Sneh";
+            for(int f=-1;f<=+1;++f){
+                int value = 0;
+                if(j1 == j2){
+                    value= grid[i][j1];
+                }else{
+                    value=grid[i][j1]+grid[i][j2];
+                }
+                value+=maxCherries(grid,i+1,j1+k,j2+f,m,dp);
+                
+                maxCherry = max(maxCherry, value);
+            }
+        }
+        
+        return dp[i][j1][j2]=maxCherry;
+        
+    };
+public:
+    int cherryPickup(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        
+        vector<vector<vector<int>>>dp(n,vector<vector<int>>(m,vector<int>(m,-1)));
+        
+        return maxCherries(grid,0,0,n-1,m,dp);
+    }
+};
+
+/* Method-3 */
+
+T.C = O(N*M*M);
+S.C = O(N*M*M); 
+
+/* Using the Tabulation */
+
+class Solution {
+public:
+    int cherryPickup(vector<vector<int>>& grid) {
+        int n = grid.size(); /* Row */
+        int m = grid[0].size(); /* Col */
+        
+        vector<vector<vector<int>>>dp(n+1,vector<vector<int>>(m,vector<int>(m,0)));
+        
+        for(int j1=0;j1<m;++j1){
+            for(int j2=0;j2<m;++j2){
+                if(j1 == j2){
+                    dp[n-1][j1][j2] = grid[n-1][j1];
+                }else{
+                    dp[n-1][j1][j2] = grid[n-1][j1]+grid[n-1][j2];
+                }
+            }
+        }
+        
+
+        for(int i=n-2;i>=0;--i){
+           for(int j1=0;j1<m;++j1){
+              for(int j2=0;j2<m;++j2){
+                  
+                   int maxCherry = -1e8;
+
+                    for(int k=-1;k<=+1;++k){
+                        for(int f=-1;f<=+1;++f){
+                            int value = 0;
+                            if(j1 == j2){
+                                value= grid[i][j1];
+                            }else{
+                                value=grid[i][j1]+grid[i][j2];
+                            }
+                                                        
+                            if(j1+k >=0 && j1+k < m && j2+f >= 0 && j2+f < m){                           
+                               value+=dp[i+1][j1+k][j2+f];
+                            }else{
+                                value-=1e8;
+                            }
+
+                            maxCherry = max(maxCherry,value);
+                        }
+                    }
+                    dp[i][j1][j2]=maxCherry;
+                  
+              }
+           }    
+        }
+
+        return dp[0][0][m-1];
+        
+    }
+};

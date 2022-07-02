@@ -1,0 +1,101 @@
+/* Method-1 */
+
+T.C = O(2^N);
+S.C = O(N)
+
+/* Using the Recursion */
+
+
+int func(int i, vector<int>&weight, vector<int>&value, int W){
+    if(i == 0){
+        if(W >= weight[0]){
+            return value[0];
+        }else{
+            return 0;
+        }
+    }
+    
+    int notPick = 0 + func(i-1,weight,value,W);
+    int pick = INT_MIN;
+    
+    if(W >= weight[i]){
+        pick = value[i]+func(i-1,weight,value,W-weight[i]);
+    }
+    
+    return max(pick,notPick);
+}
+
+int knapsack(vector<int> weight, vector<int> value, int n, int maxWeight) {
+	return func(n-1,weight,value,maxWeight);
+}
+
+
+/* Method-2 */
+
+T.C = O(N*W);
+S.C = O(N*W) + O(N);
+
+/* Using the Memoization */
+
+int func(int i, vector<int>&weight, vector<int>&value, int W,vector<vector<int>>&dp){
+    if(i == 0){
+        if(W >= weight[0]){
+            return value[0];
+        }else{
+            return 0;
+        }
+    }
+    
+    if(dp[i][W] != -1){
+        return dp[i][W];
+    }
+    
+    int notPick = 0 + func(i-1,weight,value,W,dp);
+    int pick = INT_MIN;
+    
+    if(W >= weight[i]){
+        pick = value[i]+func(i-1,weight,value,W-weight[i],dp);
+    }
+    
+    return dp[i][W] = max(pick,notPick);
+}
+
+int knapsack(vector<int> weight, vector<int> value, int n, int maxWeight) {
+    
+    vector<vector<int>>dp(n+1,vector<int>(maxWeight+1,-1));
+    
+	return func(n-1,weight,value,maxWeight,dp);
+}
+
+/* Method-3 */
+
+T.C = O(N*W);
+S.C = O(N*W);
+
+/* Using the Tabulation */
+
+int knapsack(vector<int> weight, vector<int> value, int n, int maxWeight) {
+    
+    vector<vector<int>>dp(n+1,vector<int>(maxWeight+1,0));
+    
+	/* Base Case */
+    
+    for(int wt = weight[0]; wt<= maxWeight;++wt){
+        dp[0][wt] = value[0];
+    }
+    
+    for(int i=1;i<n;++i){
+        for(int wt=0;wt<=maxWeight;wt++){
+                int notPick = 0 + dp[i-1][wt];
+                int pick = INT_MIN;
+
+                if(wt >= weight[i]){
+                    pick = value[i]+dp[i-1][wt-weight[i]];
+                }
+
+               dp[i][wt] = max(pick,notPick);
+        }
+    }
+    
+    return dp[n-1][maxWeight];
+}

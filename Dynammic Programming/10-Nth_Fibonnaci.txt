@@ -1,0 +1,56 @@
+/* Method-1 */
+
+T.C = O(2^N);
+S.C = O(N)
+
+/* Using Recursion */
+
+class Solution {
+private:
+    int calTribo(int n){
+        if(n<=1){
+            return n;
+        }
+       
+        if(n == 2){
+            return 1;
+        }
+    
+        return dp[n] = calTribo(n-1)+calTribo(n-2)+calTribo(n-3);
+    }
+public:
+    int tribonacci(int n) {
+        return calTribo(n);
+    }
+};
+
+
+
+/* Method-2 */
+
+T.C = O(N);
+S.C = O(N)+O(N);
+
+/* Using Memoization*/
+
+class Solution {
+private:
+    int calTribo(int n, vector<int>&dp){
+        if(n<=1){
+            return n;
+        }
+        
+        if(n == 2){
+            return 1;
+        }
+        
+        if(dp[n] != -1) return dp[n];
+        
+        return dp[n] = calTribo(n-1,dp)+calTribo(n-2,dp)+calTribo(n-3,dp);
+    }
+public:
+    int tribonacci(int n) {
+        vector<int>dp(n+1,-1);
+        return calTribo(n,dp);
+    }
+};
